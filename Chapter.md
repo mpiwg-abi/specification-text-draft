@@ -99,7 +99,7 @@ integer that is the same size as an address.
 Advice to implementers: _The use of C standard types
 designed to satisfy the above properties are strongly encouraged.
 For example, `intptr_t` is an integer that is guarenteed to be able
-to store an address.
+to store an address._
 
 `MPI_Offset` pertains to file I/O and depends on the underlying filesystem.
 In some cases, filesystems support offsets that are larger than the
