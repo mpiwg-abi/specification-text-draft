@@ -86,6 +86,50 @@ any non-negative integer may be a valid rank.
 
 All of the constants are specified in the Appendix.
 
+## Integer Types
+
+MPI defines three special types of integers in C,
+`MPI_Aint`, `MPI_Offset` and `MPI_Count`.
+These types depend on the underlying platform ABI.
+For example, `MPI_Aint` must be able to hold both the absolute value
+of an address and the signed difference of two addresses.
+The MPI ABI requires that this integer type be a signed
+integer that is the same size as an address.
+
+Advice to implementers: _The use of C standard types
+designed to satisfy the above properties are strongly encouraged.
+For example, `intptr_t` is an integer that is guarenteed to be able
+to store an address.
+
+`MPI_Offset` pertains to file I/O and depends on the underlying filesystem.
+In some cases, filesystems support offsets that are larger than the
+maximum difference of two locations in memory.
+If `MPI_Offset` is defined in terms of the filesystem offset type itself,
+it is possible to have two MPI ABIs on the same platform, depending only
+on the filesystem used.  This is underdesireable and implementations
+are strongly encouraged to define `MPI_Offset` to not change the size
+of this value based on the filesystem.  If this occurs, implementations
+must document it clearly.
+
+Advice to implementers: _On platforms wtih 64-bit addresses,
+`MPI_Offset` should be a 64-bit integer.  If the underlying filesystem
+is larger, individual MPI_Files will be limited to 2^63 bytes._
+
+`MPI_Count` is required to hold values of `MPI_Aint` and `MPI_Offset`.
+The restrictions and recommendations above carry forward here.
+
+## Calling Conventions and Binary Representations
+
+The MPI ABI is specified via C language constructs and
+the actual binary properties of an implementation must behave as-if
+the source code is compiled by the system C compiler on the platform.
+This ensures that MPI implementations will interoperate with other
+software installed on the system that is build with the system C compiler,
+or a C compiler that is ABI compatible with it.
+
+Users must ensure that the compiler they use to compile their application
+is ABI-compatible with the system C compiler.
+
 ## Fortran
 
 If we standardize an ABI based on MPI F08, discuss it here.
