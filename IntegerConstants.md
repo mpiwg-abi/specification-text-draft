@@ -223,7 +223,7 @@ enum {
 }
 ```
 
-```
+```c
 // Mode Constants
 // must be powers-of-2 to support OR-ing
 enum {
@@ -306,7 +306,7 @@ enum {
 };
 ```
 
-```
+```c
 // F90 Datatype Matching Constants
 enum {
     MPI_TYPECLASS_REAL          = 1,
