@@ -13,22 +13,28 @@ useful for debugging purposes.
   000  1 byte
      0000 C int8_t
      0001 C uint8_t
-     0010 C signed character
-     0011 C unsigned character
-     0100 C bool
-     0101 C++ bool
-     0110 reserved 
-     0111 reserved
+     0010 C (real 8b)
+     0011 reserved
+     0100 C signed character
+     0101 C unsigned character
+     0110 C bool
+     0111 C++ bool
      1000 F integer*1
      1001 F (logical*1)
-     1xxx reserved
+     1010 F (real*1)
+     1011 F (complex*1)
+     11** reserved
   001  2 bytes
      0000 C int16_t
      0001 C uint16_t
+     0010 C (real 16b)
+     0011 C (complex 16b)
      .... reserved
+     0111 C++ (complex 16b)
      1000 F integer*2
      1001 F (logical*2)
      1010 F real*2
+     1011 F (complex*2)
      .... reserved
   010  4 bytes
      0000 C int32_t
@@ -36,6 +42,7 @@ useful for debugging purposes.
      0010 C float
      0011 C (complex half)
      .... reserved
+     0111 C++ (complex half)
      1000 F integer*4
      1001 F (logical*4)
      1010 F real*4
@@ -44,20 +51,53 @@ useful for debugging purposes.
   011  8 bytes
      0000 C int32_t
      0001 C uint32_t
-     0010 C float
-     0011 C (complex half)
+     0010 C double
+     0011 C (complex float)
      .... reserved
-     1000 F integer*4
-     1001 F (logical*4)
-     1010 F real*4
-     1011 F complex*4
+     1000 F integer*8
+     1001 F (logical*8)
+     1010 F real*8
+     1011 F complex*8
      .... reserved
   100 16 bytes
+     0000 C (int128_t)
+     0001 C (uint128_t)
+     0010 C (float128_t)
+     0011 C complex double
+     .... reserved
+     0111 C++ complex double
+     1000 F integer*16
+     1001 F (logical*16)
+     1010 F real*16
+     1011 F complex*16
+     .... reserved
   101 32 bytes
+     .... reserved
+     1011 F complex*32
+     .... reserved
+  110 reserved
+  111 reserved
  1 other types
-
-
- 110 other
+  0 F defaults
+   000 F integer
+      ... log2(size in bytes)
+   001 F logical
+      ... log2(size in bytes)
+   010 F real
+      ... log2(size in bytes)
+   011 F complex
+      ... log2(size in bytes)
+  1 other
+   0 language-independent types
+    000 MPI_AINT
+    001 MPI_COUNT
+    010 MPI_OFFSET
+    011 reserved
+    100 MPI_BYTE
+    101 MPI_PACKED
+    110 reserved
+    111 reserved
+   1 other
     0 pair types
      0 C pair types
       000 MPI_FLOAT_INT
@@ -74,13 +114,16 @@ useful for debugging purposes.
       10 MPI_2INTEGER
       11 reserved
     1 other
-     000 MPI_AINT
-     001 MPI_COUNT
-     010 MPI_OFFSET
-     011 reserved
-     100 MPI_BYTE
-     101 MPI_PACKED
-     110 reserved
-     111 reserved
- 111 reserved
+     0 long double
+      0 real
+       00 C
+       01 C++
+       10 F
+       11 reserved
+      1 complex
+       00 C
+       01 C++
+       10 F
+       11 reserved
+     1 other
 ```
