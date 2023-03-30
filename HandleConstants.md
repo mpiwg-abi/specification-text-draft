@@ -8,9 +8,63 @@ useful for debugging purposes.
 ```
 0123456789 < bit
 0 is not datatype
+ 0 is op
+  00 arithmetic
+    000 SUM
+    001 MIN
+    010 MAX
+    011 PROD
+    ... reserved
+  01 bit ops
+    00 BAND
+    01 BOR
+    10 BXOR
+    11 reserved
+  10 logical ops
+    00 LAND
+    01 LOR
+    10 LXOR
+    11 reserved
+  11 other ops
+    0 M**LOC
+     0 MINLOC
+     1 MAXLOC
+    1 other
+     0 RMA ops
+      0 REPLACE
+      1 NO_OP
+     1 other
+      . reserved
+ 1 other
+  0000 comm
+      00 MPI_COMM_NULL
+      01 MPI_COMM_WORLD
+      10 MPI_COMM_SELF
+      11 reserved
+  0001 group
+      00 MPI_GROUP_NULL
+      01 MPI_GROUP_EMPTY
+      .. reserved
+  0010 win
+      00 MPI_WIN_NULL
+      .. reserved
+  0011 file
+      00 MPI_FILE_NULL
+      .. reserved
+  0100 session
+      00 MPI_SESSION_NULL
+      .. reserved
+  0101 message
+      00 MPI_MESSAGE_NULL
+      .. reserved
+  0110 request
+      00 MPI_REQUEST_NULL
+      .. reserved
+  .... reserved
 1 is datatype
  0 simple types
   000  1 byte
+     
      0000 C int8_t
      0001 C uint8_t
      0010 C (real 8b)
