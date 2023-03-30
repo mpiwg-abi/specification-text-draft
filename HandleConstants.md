@@ -22,8 +22,8 @@ useful for debugging purposes.
      1000 F integer*1
      1001 F (logical*1)
      1010 F (real*1)
-     1011 F (complex*1)
-     11** reserved
+     .... reserved
+     1111 MPI_BYTE
   001  2 bytes
      0000 C int16_t
      0001 C uint16_t
@@ -54,6 +54,7 @@ useful for debugging purposes.
      0010 C double
      0011 C (complex float)
      .... reserved
+     0111 C++ (complex float)
      1000 F integer*8
      1001 F (logical*8)
      1010 F real*8
@@ -79,51 +80,54 @@ useful for debugging purposes.
   111 reserved
  1 other types
   0 F defaults
-   000 F integer
-      ... log2(size in bytes)
-   001 F logical
-      ... log2(size in bytes)
-   010 F real
-      ... log2(size in bytes)
-   011 F complex
-      ... log2(size in bytes)
+   0000 F integer
+       ... log2(size in bytes)
+   0001 F logical
+       ... log2(size in bytes)
+   0010 F real
+       ... log2(size in bytes)
+   0011 F complex
+       ... log2(size in bytes)
+   1xxx reserved
   1 other
    0 language-independent types
-    000 MPI_AINT
-    001 MPI_COUNT
-    010 MPI_OFFSET
-    011 reserved
-    100 MPI_BYTE
-    101 MPI_PACKED
-    110 reserved
-    111 reserved
+    0000 random stuff 
+        00 MPI_AINT
+        01 MPI_COUNT
+        10 MPI_OFFSET
+        11 reserved
+    0001
+        00 MPI_PACKED
+        .. reserved
+    .... reserved
    1 other
     0 pair types
-     0 C pair types
-      000 MPI_FLOAT_INT
-      001 MPI_DOUBLE_INT
-      010 MPI_LONG_INT
-      011 MPI_2INT
-      100 MPI_SHORT_INT
-      101 MPI_LONG_DOUBLE_INT
-      110 reserved
-      111 reserved
-     1 F pair types
-      00 MPI_2REAL
-      01 MPI_2DOUBLE_PRECISION
-      10 MPI_2INTEGER
-      11 reserved
+     00 C pair types
+       000 MPI_FLOAT_INT
+       001 MPI_DOUBLE_INT
+       010 MPI_LONG_INT
+       011 MPI_2INT
+       100 MPI_SHORT_INT
+       101 MPI_LONG_DOUBLE_INT
+       110 reserved
+       111 reserved
+     01 F pair types
+       000 MPI_2REAL
+       001 MPI_2DOUBLE_PRECISION
+       010 MPI_2INTEGER
+       ... reserved
+     .. reserved
     1 other
-     0 long double
-      0 real
-       00 C
-       01 C++
-       10 F
-       11 reserved
-      1 complex
-       00 C
-       01 C++
-       10 F
-       11 reserved
-     1 other
+     00 long double
+       0 real
+        00 C
+        01 C++
+        10 F
+        11 reserved
+       1 complex
+        00 C
+        01 C++
+        10 F
+        11 reserved
+     .. reserved
 ```
