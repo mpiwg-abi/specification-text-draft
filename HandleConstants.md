@@ -133,16 +133,34 @@ useful for debugging purposes.
   110 reserved
   111 reserved
  1 other types
-  0 F defaults
-   0000 F integer
+  0 language defaults - these may not be necessary, i.e. can/should be aliases to fixed-size types
+   0 C
+    000 C int
        ... log2(size in bytes)
-   0001 F logical
+    001 C long
        ... log2(size in bytes)
-   0010 F real
+    010 C long long
        ... log2(size in bytes)
-   0011 F complex
+    011 reserved  
+    100 C int
        ... log2(size in bytes)
-   1xxx reserved
+    101 C long
+       ... log2(size in bytes)
+    110 C long long
+       ... log2(size in bytes)
+    111 reserved  
+   1 other
+    0 Fortran
+     00 F integer
+       ... log2(size in bytes)
+     01 F logical
+       ... log2(size in bytes)
+     10 F real
+       ... log2(size in bytes)
+     11 F complex
+       ... log2(size in bytes)
+    1 other
+     .. reserved
   1 other
    0 language-independent types
     0000 random stuff 
