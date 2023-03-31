@@ -71,7 +71,6 @@ useful for debugging purposes.
 1 is datatype
  0 simple types
   000  1 byte
-     
      0000 C int8_t
      0001 C uint8_t
      0010 C (real 8b)
@@ -141,7 +140,7 @@ useful for debugging purposes.
   111 reserved
  1 other types
   0 language defaults - these may not be necessary, i.e. can/should be aliases to fixed-size types
-   0 C
+   0 C integers
     000 C short
        ... log2(size in bytes)
     001 C int
@@ -159,7 +158,7 @@ useful for debugging purposes.
     111 C unsigned long long
        ... log2(size in bytes)
    1 other
-    0 Fortran
+    0 Fortran default types
      00 F integer
        ... log2(size in bytes)
      01 F logical
@@ -169,15 +168,16 @@ useful for debugging purposes.
      11 F complex
        ... log2(size in bytes)
     1 other
+     00000 wchar_t
      ..... reserved
   1 other
    0 language-independent types
-    0000 random stuff 
+    0000 special integer types
         00 MPI_AINT
         01 MPI_COUNT
         10 MPI_OFFSET
         11 reserved
-    0001
+    0001 other
         00 MPI_PACKED
         .. reserved
     .... reserved
