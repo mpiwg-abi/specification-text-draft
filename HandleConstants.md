@@ -142,20 +142,22 @@ useful for debugging purposes.
  1 other types
   0 language defaults - these may not be necessary, i.e. can/should be aliases to fixed-size types
    0 C
-    000 C int
+    000 C short
        ... log2(size in bytes)
-    001 C long
+    001 C int
        ... log2(size in bytes)
-    010 C long long
+    010 C long
        ... log2(size in bytes)
-    011 reserved  
-    100 C int
+    011 C long long
        ... log2(size in bytes)
-    101 C long
+    100 C unsigned short
        ... log2(size in bytes)
-    110 C long long
+    101 C unsigned int
        ... log2(size in bytes)
-    111 reserved  
+    110 C unsigned long
+       ... log2(size in bytes)
+    111 C unsigned long long
+       ... log2(size in bytes)
    1 other
     0 Fortran
      00 F integer
@@ -167,7 +169,7 @@ useful for debugging purposes.
      11 F complex
        ... log2(size in bytes)
     1 other
-     .. reserved
+     ..... reserved
   1 other
    0 language-independent types
     0000 random stuff 
