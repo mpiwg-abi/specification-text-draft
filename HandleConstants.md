@@ -56,10 +56,17 @@ useful for debugging purposes.
       .. reserved
   0101 message
       00 MPI_MESSAGE_NULL
+      01 MPI_MESSAGE_NO_PROC
       .. reserved
   0110 request
-      00 MPI_REQUEST_NULL
-      .. reserved
+      0000 MPI_REQUEST_NULL
+      .... reserved
+  0111 errhandler
+      0000 MPI_ERRHANDLER_NULL
+      0001 MPI_ERRORS_ARE_FATAL
+      0010 MPI_ERRORS_RETURN
+      0011 MPI_ERRORS_ABORT
+      .... reserved
   .... reserved
 1 is datatype
  0 simple types
