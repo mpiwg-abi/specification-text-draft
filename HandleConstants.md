@@ -198,6 +198,8 @@ useful for debugging purposes.
        ... log2(size in bytes)
     1 other
      00000 wchar_t
+     00001 MPI_LB (deleted)
+     00010 MPI_UB (deleted)
      ..... reserved
   1 other
    0 language-independent types
