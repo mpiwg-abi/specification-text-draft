@@ -168,8 +168,6 @@ def parse_datatype(h):
                     match kind:
                         case 0b0000:
                             constants[h] = "MPI_INTEGER16"
-                        case 0b0001:
-                            constants[h] = "MPI_LOGICAL16 (not standard)"
                         case 0b0010:
                             constants[h] = "MPI_REAL16"
                         case 0b0011:
