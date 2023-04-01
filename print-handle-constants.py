@@ -188,6 +188,7 @@ def parse_datatype(h):
                             print("reserved datatype")
             case _:
                 print("reserved datatype")
+    # not simple
     else:
         language_default = not(h & 0b10000000)
         if language_default:
