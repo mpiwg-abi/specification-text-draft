@@ -360,6 +360,10 @@ def parse_datatype(h):
                                     constants[h] = "MPI_2DOUBLE_PRECISION"
                                 case 0b010:
                                     constants[h] = "MPI_2INTEGER"
+                                case 0b011:
+                                    constants[h] = "MPI_2COMPLEX (non-standard)"
+                                case 0b100:
+                                    constants[h] = "MPI_2DOUBLE_COMPLEX (non-standard)"
                                 case _:
                                     constants[h] = "reserved datatype"
                         case _:
@@ -518,7 +522,7 @@ def parse_op(h):
         elif (op == 0b100):
             constants[h] = "MPI_OP_REPLACE"
         elif (op == 0b101):
-            constants[h] = "MPI_OP_REPLACE"
+            constants[h] = "MPI_NO_OP"
         elif (op == 0b110):
             constants[h] = "MPI_OP_NULL"
         else:
@@ -537,9 +541,9 @@ def parse_handle(h):
             parse_other(h)
         else:
             # op or reserved
-            if (h & 0b0011100000 == 0):
-                if (h & 0b0000011111 == 0):
-                    constants[h] = "reserved as invalid (uninitialized)"
+            if (h & 0b0011100000 == 0b0):
+                if (h & 0b0000011111 == 0b0):
+                    constants[h] = "invalid (uninitialized)"
                 else:
                     constants[h] = "reserved handle"
             elif (h & 0b0011100000 == 0b0000100000):
@@ -551,10 +555,11 @@ def parse_handle(h):
 def main():
     for h in range(0,1025):
         parse_handle(h)
+        #print(h,constants[h])
 
     for h in range(0,1025):
-        if constants[h][0:4] == 'MPI_':
-            print(h,constants[h],handle_types[h],hex(h))
+        #print(h,constants[h],handle_types[h],hex(h))
+        print(h,constants[h])
 
 if __name__ == '__main__':
     main()
