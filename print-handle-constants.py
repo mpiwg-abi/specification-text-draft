@@ -8,7 +8,7 @@ abi_long_long_size = 8
 abi_fortran_integer_size = 4
 abi_fortran_logical_size = 4
 abi_fortran_real_size    = 4
-abi_fortran_complex_size = 4
+abi_fortran_complex_size = 8
 
 def parse_datatype(h):
     is_simple = not(h & 0b100000000)
@@ -138,6 +138,8 @@ def parse_datatype(h):
                             print("MPI_REAL8")
                         case 0b0011:
                             print("MPI_COMPLEX8")
+                        case 0b0111:
+                            print("MPI_DOUBLE_PRECISION")
                         case _:
                             print("reserved datatype")
             case 16:
@@ -495,7 +497,8 @@ def parse_op(h):
 
 def parse_handle(h):
     print(format(h, '4d'), format(h, '011b'), end=": ")
-    if (h & 0xFFFFF400):
+    # if h > 1023 also works :-)
+    if (h & 0b1111111111111111111111111111111111111111111111111111110000000000):
         print("not a predefined handle constant")
         return
 
