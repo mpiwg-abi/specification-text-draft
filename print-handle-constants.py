@@ -275,9 +275,102 @@ def parse_datatype(h):
                     else:
                         print("reserved datatype")
 
-
+        # other
         else:
-            print("TODO")
+            # language independent types
+            if not(h & 0b1000000):
+                kind = (h & 0b111100) >> 2
+                match kind:
+                    case 0b0000:
+                        subkind = (h & 0b11)
+                        match subkind:
+                            case 0b00:
+                                print("MPI_AINT")
+                            case 0b01:
+                                print("MPI_COUNT")
+                            case 0b10:
+                                print("MPI_OFFSET")
+                            case _:
+                                print("reserved datatype")
+                    case 0b0001:
+                        subkind = (h & 0b11)
+                        match subkind:
+                            case 0b00:
+                                print("MPI_PACKED")
+                            case 0b01:
+                                print("MPI_DATATYPE_NULL")
+                            case _:
+                                print("reserved datatype")
+                        
+                    case _:
+                        print("reserved datatype")
+
+            # other
+            else:
+                # pair types
+                if not(h & 0b100000):
+                    kind    = (h & 0b11000) >> 3
+                    subkind = (h & 0b111)
+                    match kind:
+                        # C pair types
+                        case 0b00:
+                            match subkind:
+                                case 0b000:
+                                    print("MPI_FLOAT_INT")
+                                case 0b001:
+                                    print("MPI_DOUBLE_INT")
+                                case 0b010:
+                                    print("MPI_LONG_INT")
+                                case 0b011:
+                                    print("MPI_2INT")
+                                case 0b100:
+                                    print("MPI_SHORT_INT")
+                                case 0b101:
+                                    print("MPI_LONG_DOUBLE_INT")
+                                case _:
+                                    print("reserved datatype")
+                        # Fortran pair types
+                        case 0b01:
+                            match subkind:
+                                case 0b000:
+                                    print("MPI_2REAL")
+                                case 0b001:
+                                    print("MPI_2DOUBLE_PRECISION")
+                                case 0b010:
+                                    print("MPI_2INTEGER")
+                                case _:
+                                    print("reserved datatype")
+                        case _:
+                            print("reserved datatype")
+                # other
+                else:
+                    # long double
+                    if (h & 0b11000) == 0b00000:
+                        # real
+                        if (h & 0b100) == 0b000:
+                            language = (h & 0b11)
+                            match language:
+                                case 0b00:
+                                    print("MPI_LONG_DOUBLE")
+                                case 0b10:
+                                    print("<Fortran long double>")
+                                case _:
+                                    print("reserved datatype")
+                        # complex
+                        else:
+                            language = (h & 0b11)
+                            match language:
+                                case 0b00:
+                                    print("MPI_C_LONG_DOUBLE_COMPLEX")
+                                case 0b01:
+                                    print("MPI_CXX_LONG_DOUBLE_COMPLEX")
+                                case 0b10:
+                                    print("<Fortran long double complex>")
+                                case _:
+                                    print("reserved datatype")
+
+                    else:
+                        print("reserved datatype")
 
 
 def parse_other(h):
