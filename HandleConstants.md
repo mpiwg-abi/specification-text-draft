@@ -152,7 +152,7 @@ useful for debugging purposes.
       1... reserved
      1 Fortran and other
       0000 F integer*16
-      0001 F (logical*16)
+      0001 reserved
       0010 F real*16
       0011 F complex*16
       .... reserved
