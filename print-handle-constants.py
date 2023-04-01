@@ -532,13 +532,16 @@ def parse_handle(h):
         constants[h] = "not a predefined handle constant"
         return
 
+    # datatype
     if (h & 0b1000000000):
         parse_datatype(h)
+    # not a datatype
     else:
+        # not an op (or otherwise reserved)
         if (h & 0b0100000000):
             parse_other(h)
+        # op or reserved
         else:
-            # op or reserved
             if (h & 0b0011100000 == 0b0):
                 if (h & 0b0000011111 == 0b0):
                     constants[h] = "invalid (uninitialized)"
