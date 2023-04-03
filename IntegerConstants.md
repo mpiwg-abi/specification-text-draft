@@ -119,11 +119,6 @@ enum {
     MPI_UNDEFINED       = -32766
 };
 
-// feature-specific constant
-enum {
-     MPI_BSEND_OVERHEAD = 512 // MPICH=96, OMPI=128
-};
-
 // attribute constant - must be negative
 enum {
     MPI_KEYVAL_INVALID  = -1
@@ -151,8 +146,9 @@ enum {
 ```
 
 ```c
+#define MPI_BSEND_OVERHEAD                   512 // MPICH=96, OMPI=128
 #define MPI_MAX_DATAREP_STRING               128 // OMPI only has it
-#define MPI_MAX_ERROR_STRINGa                512 // MPICH was bigger
+#define MPI_MAX_ERROR_STRING                 512 // MPICH was bigger
 #define MPI_MAX_INFO_KEY                     255 // MPICH was bigger
 #define MPI_MAX_INFO_VAL                    1024 // MPICH was bigger
 #define MPI_MAX_LIBRARY_VERSION_STRING      8192 // MPICH was bigger
@@ -270,6 +266,7 @@ enum {
 
 ```c
 // Threads Constants
+// These values are monotonic; i.e., MPI_THREAD_SINGLE < MPI_THREAD_FUNNELED < MPI_THREAD_SERIALIZED < MPI_THREAD_MULTIPLE.
 enum {
     MPI_THREAD_SINGLE       = 100,
     MPI_THREAD_FUNNELED     = 200,
@@ -281,7 +278,7 @@ enum {
 ```c
 //
 enum {
-    MPI_DISPLACEMENT_CURRENT = -1
+    MPI_DISPLACEMENT_CURRENT = -54278278 // OMPI and MPICH agree
 }
 ```
 
