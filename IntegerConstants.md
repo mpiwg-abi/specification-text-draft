@@ -209,6 +209,7 @@ enum {
     MPI_WIN_FLAVOR_CREATE   = 0xC,
     MPI_WIN_FLAVOR_DYNAMIC  = 0xD,
     MPI_WIN_FLAVOR_SHARED   = 0x5
+}
 ```
 
 ```c
