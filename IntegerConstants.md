@@ -62,6 +62,7 @@ enum {
     MPI_ERR_UNSUPPORTED_OPERATION       = 58,
     MPI_ERR_VALUE_TOO_LARGE             = 59,
     MPI_ERR_WIN                         = 60,
+    MPI_ERR_ERRHANDLER                  = 61,
     MPI_T_ERR_CANNOT_INIT               = 1000,
     MPI_T_ERR_NOT_ACCESSIBLE            = 1001,
     MPI_T_ERR_NOT_INITIALIZED           = 1002,
