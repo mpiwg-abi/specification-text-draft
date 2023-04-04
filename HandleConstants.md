@@ -78,7 +78,7 @@ useful for debugging purposes.
         .. reserved
   ...... reserved
 1 is datatype
- 0 simple types
+ 0 simple fixed-size types
   000  1 byte
      0 C and C++
       0000 C int8_t
