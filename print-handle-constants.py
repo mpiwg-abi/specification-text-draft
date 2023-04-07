@@ -360,10 +360,11 @@ def parse_datatype(h):
                                     constants[h] = "MPI_2DOUBLE_PRECISION"
                                 case 0b010:
                                     constants[h] = "MPI_2INTEGER"
-                                case 0b011:
-                                    constants[h] = "MPI_2COMPLEX (non-standard)"
-                                case 0b100:
-                                    constants[h] = "MPI_2DOUBLE_COMPLEX (non-standard)"
+                                # these are trash (https://github.com/open-mpi/ompi/issues/11556)
+                                #case 0b011:
+                                #    constants[h] = "MPI_2COMPLEX (non-standard)"
+                                #case 0b100:
+                                #    constants[h] = "MPI_2DOUBLE_COMPLEX (non-standard)"
                                 case _:
                                     constants[h] = "reserved datatype"
                         case _:
