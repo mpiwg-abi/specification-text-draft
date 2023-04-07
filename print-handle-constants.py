@@ -290,10 +290,11 @@ def parse_datatype(h):
                 else:
                     if (h & 0b11111 == 0b00000):
                         constants[h] = "MPI_WCHAR_T"
-                    elif (h & 0b11111 == 0b00001):
-                        constants[h] = "MPI_LB"
-                    elif (h & 0b11111 == 0b00010):
-                        constants[h] = "MPI_UB"
+                    # these are deleted.  not our problem.
+                    #elif (h & 0b11111 == 0b00001):
+                    #    constants[h] = "MPI_LB"
+                    #elif (h & 0b11111 == 0b00010):
+                    #    constants[h] = "MPI_UB"
                     else:
                         constants[h] = "reserved datatype"
 
