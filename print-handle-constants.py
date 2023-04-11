@@ -5,17 +5,19 @@ handle_types = ["" for x in range(0,1025)]
 
 def parse_datatype(h):
     handle_types[h] = "MPI_Datatype"
-    if not(h & 0b100000000):
+    if not(h & 0b100_000_000):
         category = (h & 0b11_111_000) >> 3
         kind     = (h & 0b00_000_111)
-        # categories:
-        # 00 not strictly fixed-size
-        # 01 C/C++ fixed-size
-        # 10 reserved
-        # 11 Fortran fixed-size
+        # category buckets:
+        # 00... not strictly fixed-size
+        # 01... C/C++ fixed-size
+        # 10... reserved
+        # 11... Fortran fixed-size
+        #  ^ fixed-size bit
+        #   ^^^ encoded size bits (log2 of size in bytes)
         match category:
             # language-independent types
-            case 0b00000:
+            case 0b00_000:
                 match kind:
                     case 0b000:
                         constants[h] = "MPI_DATATYPE_NULL"
@@ -31,7 +33,7 @@ def parse_datatype(h):
                         constants[h] = "reserved datatype"
 
             # C integers
-            case 0b00001:
+            case 0b00_001:
                 signed = not(h & 0b100)
                 kind = (h & 0b11)
                 if signed:
@@ -56,7 +58,7 @@ def parse_datatype(h):
                             constants[h] = "MPI_UNSIGNED_LONG_LONG"
 
             # C/C++ floating-point types
-            case 0b00010:
+            case 0b00_010:
                 is_float = not(h & 0b100)
                 kind = (h & 0b11)
                 if is_float:
@@ -81,7 +83,7 @@ def parse_datatype(h):
                             constants[h] = "reserved datatype"
 
             # Fortran types
-            case 0b00011:
+            case 0b00_011:
                 match kind:
                     case 0b000:
                         constants[h] = "MPI_INTEGER"
@@ -99,7 +101,7 @@ def parse_datatype(h):
                         constants[h] = "reserved datatype"
 
             # long double
-            case 0b00100:
+            case 0b00_100:
                 real = not(h & 0b100)
                 kind = (h & 0b11)
                 if real:
@@ -122,7 +124,7 @@ def parse_datatype(h):
                             constants[h] = "reserved datatype"
 
             # C pair types
-            case 0b00101:
+            case 0b00_101:
                 match kind:
                     case 0b000:
                         constants[h] = "MPI_FLOAT_INT"
@@ -140,7 +142,7 @@ def parse_datatype(h):
                         constants[h] = "reserved datatype"
 
             # Fortran pair types
-            case 0b00110:
+            case 0b00_110:
                 match kind:
                     case 0b000:
                         constants[h] = "MPI_2REAL"
@@ -157,7 +159,7 @@ def parse_datatype(h):
                         constants[h] = "reserved datatype"
 
             # other C/C++ types
-            case 0b00111:
+            case 0b00_111:
                 match kind:
                     case 0b000:
                         constants[h] = "MPI_C_BOOL"
@@ -183,7 +185,7 @@ def parse_datatype(h):
             # 0b010: "MPI_REAL(n)"
             # 0b011: (size=1) ? "MPI_CHARACTER" : "MPI_COMPLEX(n)"
 
-            case 0b01000: # 1 byte C/C++
+            case 0b01_000: # 1 byte C/C++
                 match kind:
                     case 0b000:
                         constants[h] = "MPI_INT8_T"
@@ -202,7 +204,7 @@ def parse_datatype(h):
                     case _:
                         constants[h] = "reserved datatype"
 
-            case 0b01001: # 2 byte C/C++
+            case 0b01_001: # 2 byte C/C++
                 match kind:
                     case 0b000:
                         constants[h] = "MPI_INT16_T"
@@ -217,7 +219,7 @@ def parse_datatype(h):
                     case _:
                         constants[h] = "reserved datatype"
 
-            case 0b01010: # 4 byte C/C++
+            case 0b01_010: # 4 byte C/C++
                 match kind:
                     case 0b000:
                         constants[h] = "MPI_INT32_T"
@@ -232,7 +234,7 @@ def parse_datatype(h):
                     case _:
                         constants[h] = "reserved datatype"
 
-            case 0b01011: # 8 byte C/C++
+            case 0b01_011: # 8 byte C/C++
                 match kind:
                     case 0b000:
                         constants[h] = "MPI_INT64_T"
@@ -247,7 +249,7 @@ def parse_datatype(h):
                     case _:
                         constants[h] = "reserved datatype"
 
-            case 0b01100: # 16 byte C/C++
+            case 0b01_100: # 16 byte C/C++
                 match kind:
                     case 0b0000:
                         constants[h] = "<C int128_t>"
@@ -263,7 +265,7 @@ def parse_datatype(h):
                         constants[h] = "reserved datatype"
 
             #case 0b01101: # 32 byte C/C++
-            case 0b11000: # 1 byte Fortran
+            case 0b11_000: # 1 byte Fortran
                 match kind:
                     case 0b000:
                         constants[h] = "MPI_INTEGER1"
@@ -276,7 +278,7 @@ def parse_datatype(h):
                     case _:
                         constants[h] = "reserved datatype"
 
-            case 0b11001: # 2 byte Fortran
+            case 0b11_001: # 2 byte Fortran
                 match kind:
                     case 0b000:
                         constants[h] = "MPI_INTEGER2"
@@ -289,7 +291,7 @@ def parse_datatype(h):
                     case _:
                         constants[h] = "reserved datatype"
 
-            case 0b11010: # 4 byte Fortran
+            case 0b11_010: # 4 byte Fortran
                 match kind:
                     case 0b000:
                         constants[h] = "MPI_INTEGER4"
@@ -302,7 +304,7 @@ def parse_datatype(h):
                     case _:
                         constants[h] = "reserved datatype"
 
-            case 0b11011: # 8 byte Fortran
+            case 0b11_011: # 8 byte Fortran
                 match kind:
                     case 0b0000:
                         constants[h] = "MPI_INTEGER8"
@@ -315,7 +317,7 @@ def parse_datatype(h):
                     case _:
                         constants[h] = "reserved datatype"
 
-            case 0b11100: # 16 byte Fortran
+            case 0b11_100: # 16 byte Fortran
                 match kind:
                     case 0b0000:
                         constants[h] = "MPI_INTEGER16"
@@ -326,7 +328,7 @@ def parse_datatype(h):
                     case _:
                         constants[h] = "reserved datatype"
 
-            case 0b11101: # 32 byte Fortran
+            case 0b11_101: # 32 byte Fortran
                 match kind:
                     case 0b0011:
                         constants[h] = "MPI_COMPLEX32"
