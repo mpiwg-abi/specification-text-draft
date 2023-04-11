@@ -180,8 +180,8 @@ def parse_datatype(h):
                 constants[h] = "reserved datatype"
     # not fixed size
     else:
-        scalar_unsized = not(h & 0b10_000_000)
-        if scalar_unsized:
+        unsized = not(h & 0b10_000_000)
+        if unsized:
             category = (h & 0b1_111_000) >> 3
             kind     = (h & 0b0_000_111)
             match category:
@@ -338,6 +338,13 @@ def parse_datatype(h):
                             constants[h] = "MPI_WCHAR_T"
                         case _:
                             constants[h] = "reserved datatype"
+
+                #case 0b1000: # 1 byte
+                #case 0b1001: # 2 byte
+                #case 0b1010: # 4 byte
+                #case 0b1011: # 8 byte
+                #case 0b1100: # 16 byte
+                #case 0b1101: # 32 byte
                 case _:
                     constants[h] = "reserved datatype"
 
