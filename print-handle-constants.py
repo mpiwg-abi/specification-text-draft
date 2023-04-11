@@ -418,23 +418,22 @@ def parse_other(h):
 
 def parse_op(h):
     handle_types[h] = "MPI_Op"
-    op_type = h & 0b11000
-    if   (op_type == 0b00000):
-        # arithmetic
-        op = h & 0b111
+    op_type = (h & 0b11000) >> 3
+    op = h & 0b111
+    if   (op_type == 0b00): # arithmetic
         if   (op == 0b000):
-            constants[h] = "MPI_OP_SUM"
+            constants[h] = "MPI_OP_NULL"
         elif (op == 0b001):
-            constants[h] = "MPI_OP_MIN"
+            constants[h] = "MPI_OP_SUM"
         elif (op == 0b010):
-            constants[h] = "MPI_OP_MAX"
+            constants[h] = "MPI_OP_MIN"
         elif (op == 0b011):
+            constants[h] = "MPI_OP_MAX"
+        elif (op == 0b100):
             constants[h] = "MPI_OP_PROD"
         else:
             constants[h] = "reserved arithmetic op"
-    elif (op_type == 0b01000):
-        # bit ops
-        op = h & 0b111
+    elif (op_type == 0b01): # bit ops
         if   (op == 0b000):
             constants[h] = "MPI_OP_BAND"
         elif (op == 0b001):
@@ -443,8 +442,7 @@ def parse_op(h):
             constants[h] = "MPI_OP_BXOR"
         else:
             constants[h] = "reserved bit op"
-    elif (op_type == 0b10000):
-        # logical ops
+    elif (op_type == 0b10): # logical ops
         op = h & 0b111
         if   (op == 0b000):
             constants[h] = "MPI_OP_LAND"
@@ -454,8 +452,7 @@ def parse_op(h):
             constants[h] = "MPI_OP_LXOR"
         else:
             constants[h] = "reserved logical op"
-    elif (op_type == 0b11000):
-        # other ops
+    elif (op_type == 0b11): # other ops
         op = h & 0b111
         if   (op == 0b000):
             constants[h] = "MPI_OP_MINLOC"
@@ -465,8 +462,6 @@ def parse_op(h):
             constants[h] = "MPI_OP_REPLACE"
         elif (op == 0b101):
             constants[h] = "MPI_NO_OP"
-        elif (op == 0b110):
-            constants[h] = "MPI_OP_NULL"
         else:
             constants[h] = "reserved other op"
 
