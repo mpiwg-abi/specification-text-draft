@@ -10,6 +10,10 @@ abi_fortran_logical_size = 4
 abi_fortran_real_size    = 4
 abi_fortran_complex_size = 8
 
+abi_aint_size       = 8
+abi_count_size      = 8
+abi_offset_size     = 8
+
 constants    = ["" for x in range(0,1025)]
 handle_types = ["" for x in range(0,1025)]
 
@@ -255,49 +259,56 @@ def parse_datatype(h):
                     case _:
                         constants[h] = "reserved datatype"
 
-            # other
+            # Fortran or other
             else:
-                # Fortran
-                if not(h & 0b100000):
-                    kind = (h & 0b11000) >> 3
-                    log2size = (h & 0b111)
-                    bytesize = 1 << log2size
-                    match kind:
-                        case 0b00:
-                            if (bytesize == abi_fortran_integer_size):
-                                string = "MPI_INTEGER of " + str(bytesize) + " bytes"
-                                constants[h] = string
-                            else:
-                                constants[h] = "reserved datatype"
-                        case 0b01:
-                            if (bytesize == abi_fortran_logical_size):
-                                string = "MPI_LOGICAL of " + str(bytesize) + " bytes"
-                                constants[h] = string
-                            else:
-                                constants[h] = "reserved datatype"
-                        case 0b10:
-                            if (bytesize == abi_fortran_real_size):
-                                string = "MPI_REAL of " + str(bytesize) + " bytes"
-                                constants[h] = string
-                            else:
-                                constants[h] = "reserved datatype"
-                        case 0b11:
-                            if (bytesize == abi_fortran_complex_size):
-                                string = "MPI_COMPLEX of " + str(bytesize) + " bytes"
-                                constants[h] = string
-                            else:
-                                constants[h] = "reserved datatype"
-                else:
-                    if (h & 0b11111 == 0b00000):
-                        constants[h] = "MPI_WCHAR_T"
-                    # these are deleted.  not our problem.
-                    #elif (h & 0b11111 == 0b00001):
-                    #    constants[h] = "MPI_LB"
-                    #elif (h & 0b11111 == 0b00010):
-                    #    constants[h] = "MPI_UB"
-                    else:
+                kind = (h & 0b111000) >> 3
+                log2size = (h & 0b111)
+                bytesize = 1 << log2size
+                match kind:
+                    case 0b000:
+                        if (bytesize == abi_fortran_integer_size):
+                            string = "MPI_INTEGER of " + str(bytesize) + " bytes"
+                            constants[h] = string
+                        else:
+                            constants[h] = "reserved datatype"
+                    case 0b001:
+                        if (bytesize == abi_fortran_logical_size):
+                            string = "MPI_LOGICAL of " + str(bytesize) + " bytes"
+                            constants[h] = string
+                        else:
+                            constants[h] = "reserved datatype"
+                    case 0b010:
+                        if (bytesize == abi_fortran_real_size):
+                            string = "MPI_REAL of " + str(bytesize) + " bytes"
+                            constants[h] = string
+                        else:
+                            constants[h] = "reserved datatype"
+                    case 0b011:
+                        if (bytesize == abi_fortran_complex_size):
+                            string = "MPI_COMPLEX of " + str(bytesize) + " bytes"
+                            constants[h] = string
+                        else:
+                            constants[h] = "reserved datatype"
+                    case 0b100:
+                        if (bytesize == abi_aint_size):
+                            string = "MPI_AINT of " + str(bytesize) + " bytes"
+                            constants[h] = string
+                        else:
+                            constants[h] = "reserved datatype"
+                    case 0b101:
+                        if (bytesize == abi_count_size):
+                            string = "MPI_COUNT of " + str(bytesize) + " bytes"
+                            constants[h] = string
+                        else:
+                            constants[h] = "reserved datatype"
+                    case 0b110:
+                        if (bytesize == abi_offset_size):
+                            string = "MPI_OFFSET of " + str(bytesize) + " bytes"
+                            constants[h] = string
+                        else:
+                            constants[h] = "reserved datatype"
+                    case _:
                         constants[h] = "reserved datatype"
-
         # other
         else:
             # language independent types
@@ -308,20 +319,11 @@ def parse_datatype(h):
                         subkind = (h & 0b11)
                         match subkind:
                             case 0b00:
-                                constants[h] = "MPI_AINT"
-                            case 0b01:
-                                constants[h] = "MPI_COUNT"
-                            case 0b10:
-                                constants[h] = "MPI_OFFSET"
-                            case _:
-                                constants[h] = "reserved datatype"
-                    case 0b0001:
-                        subkind = (h & 0b11)
-                        match subkind:
-                            case 0b00:
-                                constants[h] = "MPI_PACKED"
-                            case 0b01:
                                 constants[h] = "MPI_DATATYPE_NULL"
+                            case 0b01:
+                                constants[h] = "MPI_PACKED"
+                            case 0b10:
+                                constants[h] = "MPI_WCHAR_T"
                             case _:
                                 constants[h] = "reserved datatype"
                         
