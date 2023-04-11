@@ -23,7 +23,7 @@ def parse_datatype(h):
                 # 0b10_000: "MPI_INTEGER(n)"
                 # 0b10_001: "MPI_LOGICAL8(n) (not standard)"
                 # 0b10_010: "MPI_REAL(n)"
-                # 0b10_011: "MPI_COMPLEX(n)"
+                # 0b10_011: (size=1) ? "MPI_CHARACTER" : "MPI_COMPLEX(n)"
                 kind = (h & 0b1111)
                 # C/C++
                 if not(h & 0b10000):
@@ -53,7 +53,7 @@ def parse_datatype(h):
                             constants[h] = "MPI_LOGICAL1 (not standard)"
                         case 0b0010:
                             constants[h] = "MPI_REAL1"
-                        case 0b0100:
+                        case 0b0011:
                             constants[h] = "MPI_CHARACTER"
                         case _:
                             constants[h] = "reserved datatype"
