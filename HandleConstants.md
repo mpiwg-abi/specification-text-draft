@@ -186,31 +186,29 @@ useful for debugging purposes.
        ... log2(size in bytes)
     111 C unsigned long long
        ... log2(size in bytes)
-   1 other
-    0 Fortran default types
-     00 F integer
+   1 Fortran and other
+    000 F integer
        ... log2(size in bytes)
-     01 F logical
+    001 F logical
        ... log2(size in bytes)
-     10 F real
+    010 F real
        ... log2(size in bytes)
-     11 F complex
+    011 F complex
        ... log2(size in bytes)
-    1 other
-     00000 wchar_t
-     00001 MPI_LB (deleted)
-     00010 MPI_UB (deleted)
-     ..... reserved
+    100 MPI_AINT
+       ... log2(size in bytes)
+    101 MPI_COUNT
+       ... log2(size in bytes)
+    110 MPI_OFFSET
+       ... log2(size in bytes)
+    111 reserved
+       ... reserved
   1 other
    0 language-independent types
-    0000 special integer types
-        00 MPI_AINT
-        01 MPI_COUNT
-        10 MPI_OFFSET
-        11 reserved
-    0001 other
-        00 MPI_PACKED
-        01 MPI_DATATYPE_NULL
+    0000 other
+        00 MPI_DATATYPE_NULL
+        01 MPI_PACKED
+        10 MPI_WCHAR_T
         .. reserved
     .... reserved
         .. reserved
