@@ -11,6 +11,19 @@ def parse_datatype(h):
         bytesize = 1 << log2size
         match bytesize:
             case 1:
+                # scheme
+                # C/C++
+                # 0b00_000: "MPI_INT(n)_T"
+                # 0b00_001: "MPI_UINT(n)_T"
+                # 0b00_010: "<float (n)b>"
+                # 0b00_011: (size=1) ? "MPI_CHAR" : ""<C complex 2x(n/2)b>""
+                # 0b00_100: (size=1) ? "MPI_SIGNED_CHAR" : "reserved datatype"
+                # 0b00_101: (size=1) ? "MPI_UNSIGNED_CHAR" : "reserved datatype"
+                # 0b00_111: (size=1) ? "MPI_BYTE" : ""<C++ complex 2x(n/2)b>""
+                # 0b10_000: "MPI_INTEGER(n)"
+                # 0b10_001: "MPI_LOGICAL8(n) (not standard)"
+                # 0b10_010: "MPI_REAL(n)"
+                # 0b10_011: "MPI_COMPLEX(n)"
                 kind = (h & 0b1111)
                 # C/C++
                 if not(h & 0b10000):
