@@ -148,7 +148,7 @@ enum {
 
 ```c
 #define MPI_BSEND_OVERHEAD                   512 // MPICH=96, OMPI=128
-#define MPI_MAX_DATAREP_STRING               128 // OMPI only has it
+#define MPI_MAX_DATAREP_STRING               128 // MPICH=OMPI=128 (MPICH has it in `mpio.h`)
 #define MPI_MAX_ERROR_STRING                 512 // MPICH was bigger
 #define MPI_MAX_INFO_KEY                     255 // MPICH was bigger
 #define MPI_MAX_INFO_VAL                    1024 // MPICH was bigger
@@ -156,8 +156,8 @@ enum {
 #define MPI_MAX_OBJECT_NAME                  128 // MPICH was bigger
 #define MPI_MAX_PORT_NAME                   1024 // OMPI was bigger
 #define MPI_MAX_PROCESSOR_NAME               256 // OMPI was bigger
-#define MPI_MAX_STRINGTAG_LEN                256 // MPICH only has it
-#define MPI_MAX_PSET_NAME_LEN                256 // MPICH only has it
+#define MPI_MAX_STRINGTAG_LEN               1024 // OMPI was bigger (v5.0+)
+#define MPI_MAX_PSET_NAME_LEN                512 // OMPI was bigger (v5.0+)
 ```
 
 ```c
