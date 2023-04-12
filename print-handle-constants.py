@@ -178,6 +178,7 @@ def parse_datatype(h):
             # 0b011: (size=1) ? "MPI_CHAR" : ""<C complex 2x(n/2)b>""
             # 0b100: (size=1) ? "MPI_SIGNED_CHAR" : "reserved datatype"
             # 0b101: (size=1) ? "MPI_UNSIGNED_CHAR" : "reserved datatype"
+            # 0b110: (size=2) ? "<C++ bfloat16_t>" : "reserved datatype"
             # 0b111: (size=1) ? "MPI_BYTE" : ""<C++ complex 2x(n/2)b>""
             # Fortran
             # 0b000: "MPI_INTEGER(n)"
@@ -264,7 +265,15 @@ def parse_datatype(h):
                     case _:
                         constants[h] = "reserved datatype"
 
-            #case 0b01101: # 32 byte C/C++
+            case 0b01_101: # 32 byte C/C++
+                match kind:
+                    case 0b0011:
+                        constants[h] = "<C complex 2x128b>"
+                    case 0b0111:
+                        constants[h] = "<C++ complex 2x128b>"
+                    case _:
+                        constants[h] = "reserved datatype"
+
             case 0b11_000: # 1 byte Fortran
                 match kind:
                     case 0b000:
@@ -342,8 +351,8 @@ def parse_datatype(h):
         constants[h] = "reserved datatype"
 
 def parse_other(h):
-    handle_type = h & 0b11111100
-    if   (handle_type == 0b00000000):
+    handle_type = (h & 0b11_111_100) >> 2;
+    if   (handle_type == 0b000_000):
         handle_types[h] = "MPI_Comm"
         comm_type = (h & 0b11) 
         if   (comm_type == 0b00):
@@ -354,7 +363,7 @@ def parse_other(h):
             constants[h] = "MPI_COMM_SELF"
         else:
             constants[h] = "reserved comm"
-    elif (handle_type == 0b00000100):
+    elif (handle_type == 0b000_001):
         handle_types[h] = "MPI_Group"
         group_type = (h & 0b11) 
         if   (group_type == 0b00):
@@ -363,28 +372,28 @@ def parse_other(h):
             constants[h] = "MPI_GROUP_EMPTY"
         else:
             constants[h] = "reserved group"
-    elif (handle_type == 0b00001000):
+    elif (handle_type == 0b000_010):
         handle_types[h] = "MPI_Win"
         win_type = (h & 0b11) 
         if   (win_type == 0b00):
             constants[h] = "MPI_WIN_NULL"
         else:
             constants[h] = "reserved win"
-    elif (handle_type == 0b00001100):
+    elif (handle_type == 0b000_011):
         handle_types[h] = "MPI_File"
         file_type = (h & 0b11) 
         if   (file_type == 0b00):
             constants[h] = "MPI_FILE_NULL"
         else:
             constants[h] = "reserved file"
-    elif (handle_type == 0b00010000):
+    elif (handle_type == 0b000_100):
         handle_types[h] = "MPI_Session"
         session_type = (h & 0b11) 
         if   (session_type == 0b00):
             constants[h] = "MPI_SESSION_NULL"
         else:
             constants[h] = "reserved session"
-    elif (handle_type == 0b00010100):
+    elif (handle_type == 0b000_101):
         handle_types[h] = "MPI_Message"
         message_type = (h & 0b11) 
         if   (message_type == 0b00):
@@ -393,7 +402,7 @@ def parse_other(h):
             constants[h] = "MPI_MESSAGE_NO_PROC"
         else:
             constants[h] = "reserved message"
-    elif (handle_type == 0b00011000):
+    elif (handle_type == 0b000_110):
         handle_types[h] = "MPI_Errhandler"
         errhandler_type = (h & 0b11) 
         if   (errhandler_type == 0b00):
@@ -404,7 +413,7 @@ def parse_other(h):
             constants[h] = "MPI_ERRORS_RETURN"
         elif (errhandler_type == 0b11):
             constants[h] = "MPI_ERRORS_ABORT"
-    elif (handle_type == 0b00100000):
+    elif (handle_type == 0b001_000):
         handle_types[h] = "MPI_Request"
         request_type = (h & 0b11) 
         if (request_type == 0b00):
