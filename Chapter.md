@@ -130,10 +130,10 @@ of an address and the signed difference of two addresses.
 The MPI ABI requires that this integer type be a signed
 integer that is the same size as an address.
 
-Advice to implementers: _The use of C standard types
-designed to satisfy the above properties are strongly encouraged.
-For example, _`intptr_t`_ is an integer that is guarenteed to be able
-to store an address._
+*Advice to implementers:*
+The use of C standard types designed to satisfy the above properties are strongly encouraged.
+For example, _`intptr_t`_ is an integer that is guarenteed to be able to store an address.
+*(End of advice to implementers.)*
 
 `MPI_Offset` pertains to file I/O and depends on the underlying filesystem.
 In some cases, filesystems support offsets that are larger than the
@@ -145,14 +145,20 @@ are strongly encouraged to define `MPI_Offset` to not change the size
 of this value based on the filesystem.  If this occurs, implementations
 must document it clearly.
 
-Advice to implementers: _On platforms wtih 64-bit
-addresses, _`MPI_Offset`_ should be a 64-bit integer.  If the underlying filesystem
-is larger, individual _`MPI_Files`_ will be limited to 2^63 bytes._
+*Advice to implementers:*
+On platforms wtih 64-bit addresses, _`MPI_Offset`_ should be a 64-bit integer.
+If the underlying filesystem is larger, individual _`MPI_Files`_ will be limited to 2^63 bytes.
+*(End of advice to implementers.)*
 
 `MPI_Count` is required to hold values of `MPI_Aint` and `MPI_Offset`.
 The restrictions and recommendations above carry forward here.
 
 ## Calling Conventions and Binary Representations
+
+MPI supports a wide range of operating systems and hardware platforms,
+which specify a platform ABI.  The C compiler and associated
+runtime library further ...
+
 
 The MPI ABI is specified via C language constructs and
 the actual binary properties of an implementation must behave as if
