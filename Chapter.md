@@ -156,19 +156,49 @@ The restrictions and recommendations above carry forward here.
 ## Calling Conventions and Binary Representations
 
 MPI supports a wide range of operating systems and hardware platforms,
-which specify a platform ABI.  The C compiler and associated
-runtime library further ...
-
+which specify a portion of the platform ABI.
+The default C compiler and associated runtime library
+(together, the C compiler environment)
+further define the platform ABI.
+Any C compiler that supports the same ABI as the default C compiler environment
+is a valid platform C compiler.
+These terms refer to the platform where MPI applications execute,
+not where they are compiled.
+The MPI ABI has no dependence on the environment in which the MPI
+library is compiled, and MPI libraries and applications may
+be compiled on systems that are incompatible with the ones on which
+they execute in multiple ways.
 
 The MPI ABI is specified via C language constructs and
 the actual binary properties of an implementation must behave as if
-the source code is compiled by the system C compiler on the platform.
+the source code is compiled by the default C compiler for the platform.
 This ensures that MPI implementations will interoperate with other
-software installed on the system that is build with the system C compiler,
-or a C compiler that is ABI compatible with it.
-
+software installed on the system that is build with the default platform C compiler,
+or another C compiler that is ABI compatible with it.
 Users must ensure that the compiler they use to compile their application
-is ABI-compatible with the system C compiler.
+is ABI-compatible with the default platform C compiler.
+
+For example, in order for an MPI application to work correctly
+with an MPI library, the following code must compile to equivalent
+binary representations by the C compilers used to build each,
+which in turn must be compatible with the C runtime library
+used by both when the application is executed.
+```c
+struct {
+    char c;
+    short s;
+    int  i;
+    long l;
+    long long ll;
+    float f;
+    double d;
+    long double ld;
+    _Bool b;
+} S;
+
+// for all members of the struct S...
+printf("%zu %zu\n", sizeof(S.<member>), offsetof(struct S, <member>));
+```
 
 ## Fortran
 
