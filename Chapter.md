@@ -33,6 +33,12 @@ and `path/lib/libmpi.so`, in which case, `path/abi/include/mpi.h` and
 `path/abi/lib/libmpi.so` indicate to the user that these files are associated with
 the MPI standard ABI.
 
+*Advice to users:*
+Applications must not mix different MPI ABIs.
+If implementations provide both the standard ABI and an implementation-specific
+ABI, applications must compile and link against only one of these.
+*(End of advice to users.)*
+
 ## The Status Object
 
 The `MPI_Status` object is a 256-bit struct containing 8 integers: the three
@@ -92,17 +98,20 @@ as integers expressions, cast to the appropriate handle type.
 Link-time constants, while convenient, are not strictly portable.
 *(End of rationale.)*
 
-All predefined handle constants correspond to integer representations that are not
-valid addresses.  Implementations must ensure that the handles they create for the user
+All predefined handle constants correspond to integer representations
+that are unlikely to be valid addresses, and must not be dereferenced.
+Implementations must ensure that the handles they create for the user
 are never in the range reserved for predefined handle constants.
-The MPI ABI reservers addresses corresponding to the integers 1 to 4095 for predefined
-constants.
+The MPI ABI reservers addresses corresponding to the integers 1 to 4095
+for predefined constants.
 
 *Rational:*
 Many operating systems support a "zero page" that corresponds
 to the above address range, in which case, implementations will not need to do any
 runtime checking to ensure the above requirement is satisfied.
 *(End of rationale.)*
+
+All of the constants are specified in the Appendix.
 
 ## Integer Constants
 
@@ -114,9 +123,8 @@ In cases where integer constants are combined using bitwise logical
 expressions, there are additional requirements, specified elsewhere
 (e.g. Section 14.2 under `MPI_File_open`).
 
-A different constraint
-exists in cases like `MPI_ANY_SOURCE`, which must be negative, because
-any non-negative integer may be a valid rank.
+A different constraint exists for constants like `MPI_ANY_SOURCE`,
+which must be negative, because any non-negative integer may be a valid rank.
 
 All of the constants are specified in the Appendix.
 
@@ -167,6 +175,8 @@ behave as-if they have been compiled with the system C compiler toolchain
 *Advice to users:*
 Libraries and applications that use MPI may be built with any toolchain
 they wish, as long as they adhere to these conventions when calling MPI routines.
+Compiler options that change the size or layout of types, or calling conventions,
+should be avoided.
 *(End of advice to users.)*
 
 ## Fortran
