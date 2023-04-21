@@ -146,7 +146,7 @@ of this value based on the filesystem.  If this occurs, implementations
 must document it clearly.
 
 *Advice to implementers:*
-On platforms wtih 64-bit addresses, _`MPI_Offset`_ should be a signed 64-bit integer.
+On platforms with 64-bit addresses, _`MPI_Offset`_ should be a signed 64-bit integer.
 If the underlying filesystem is larger, individual _`MPI_Files`_ will be limited to 2^63 bytes.
 *(End of advice to implementers.)*
 
