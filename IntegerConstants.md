@@ -81,7 +81,7 @@ enum {
     MPI_T_ERR_PVAR_NO_WRITE             = 1015,
     MPI_T_ERR_PVAR_NO_STARTSTOP         = 1016,
     MPI_T_ERR_PVAR_NO_ATOMIC            = 1017,
-    MPI_ERR_LASTCODE                    = 2000,
+    MPI_ERR_LASTCODE                    = 0x3fffffff,
 };
 ```
 
