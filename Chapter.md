@@ -146,7 +146,7 @@ of this value based on the filesystem.  If this occurs, implementations
 must document it clearly.
 
 *Advice to implementers:*
-On platforms wtih 64-bit addresses, _`MPI_Offset`_ should be a 64-bit integer.
+On platforms wtih 64-bit addresses, _`MPI_Offset`_ should be a signed 64-bit integer.
 If the underlying filesystem is larger, individual _`MPI_Files`_ will be limited to 2^63 bytes.
 *(End of advice to implementers.)*
 
@@ -199,6 +199,18 @@ struct {
 // for all members of the struct S...
 printf("%zu %zu\n", sizeof(S.<member>), offsetof(struct S, <member>));
 ```
+
+Another idea...
+
+It is complicated to define what an ABI is, but in the context of MPI,
+ABI compatibility means that the binary object code of the MPI implementation,
+libraries that use MPI, and the main MPI application program can be linked
+and executed correctly.
+It is not assumed that any of these are implemented in C, only that the
+layout of the types and calling conventions of MPI routines behave as-if
+they have been compiled with the same C compiler environment
+(which includes the C runtime library and any compiler flags
+that affect type layout and calling conventions).
 
 ## Fortran
 
