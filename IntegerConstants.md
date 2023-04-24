@@ -106,7 +106,7 @@ enum {
 #define MPI_ARGVS_NULL      ((char***)0)
 #define MPI_ERRCODES_IGNORE ((int*)0)
 #define MPI_STATUS_IGNORE   ((MPI_Status*)0)
-#define MPI_STATUSES_IGNORE ((MPI_Status*)0)
+#define MPI_STATUSES_IGNORE ((MPI_Status**)0)
 #define MPI_UNWEIGHTED      ((int*)2)
 #define MPI_WEIGHTS_EMPTY   ((int*)3)
 
