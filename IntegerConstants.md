@@ -256,7 +256,7 @@ enum {
 }
 ```
 
-```
+```c
 #define MPI_NULL_COPY_FN        ((MPI_Copy_function*)0x0)
 #define MPI_DUP_FN              ((MPI_Copy_function*)0x1)
 #define MPI_NULL_DELETE_FN      ((MPI_Delete_function*)0x0)
