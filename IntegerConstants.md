@@ -1,4 +1,15 @@
 ```c
+enum {
+    // Status indexing - must match MPI_Status definition
+    MPI_F_SOURCE        = 0,
+    MPI_F_TAG           = 1,
+    MPI_F_ERROR         = 2,
+    // Fortran status array size and reserved index values (in C)
+    MPI_F_STATUS_SIZE   = 8
+};
+```
+
+```c
 // Error classes
 enum {
     MPI_SUCCESS                         = 0,
@@ -81,7 +92,7 @@ enum {
     MPI_T_ERR_PVAR_NO_WRITE             = 1015,
     MPI_T_ERR_PVAR_NO_STARTSTOP         = 1016,
     MPI_T_ERR_PVAR_NO_ATOMIC            = 1017,
-    MPI_ERR_LASTCODE                    = 0x3fffffff,
+    MPI_ERR_LASTCODE                    = 0x3fff // half of the minimum required value of INT_MAX
 };
 ```
 
@@ -98,56 +109,11 @@ enum {
 #define MPI_STATUSES_IGNORE ((MPI_Status*)0)
 #define MPI_UNWEIGHTED      ((int*)2)
 #define MPI_WEIGHTS_EMPTY   ((int*)3)
-```
 
-```c
-// Assorted Constants
-
-// rank sentinels - must be negative
-enum {
-    MPI_ANY_SOURCE      = -1,
-    MPI_PROC_NULL       = -2,
-    MPI_ROOT            = -4,
-};
-
-// tag sentinels - should be negative
-enum {
-    MPI_ANY_TAG         = -1
-};
-
-// multi-purpose sentinel - must be negative
-enum {
-    MPI_UNDEFINED       = -32766
-};
-
-// attribute constant - must be negative
-enum {
-    MPI_KEYVAL_INVALID  = -1
-};
-
-// RMA lock constants - arbitrary values
-enum {
-    MPI_LOCK_EXCLUSIVE  = 1,
-    MPI_LOCK_SHARED     = 2
-};
-```
-
-```c
-// Fortran status array size and reserved index values (in C)
-enum {
-    MPI_F_STATUS_SIZE   = 8
-};
-
-// Status indexing - must match MPI_Status definition
-enum {
-    MPI_F_SOURCE        = 0,
-    MPI_F_TAG           = 1,
-    MPI_F_ERROR         = 2
-};
-```
-
-```c
+// Other constants
 #define MPI_BSEND_OVERHEAD                   512 // MPICH=96, OMPI=128
+
+// String size constants
 #define MPI_MAX_DATAREP_STRING               128 // MPICH=OMPI=128 (MPICH has it in `mpio.h`)
 #define MPI_MAX_ERROR_STRING                 512 // MPICH was bigger
 #define MPI_MAX_INFO_KEY                     255 // MPICH was bigger
@@ -158,67 +124,6 @@ enum {
 #define MPI_MAX_PROCESSOR_NAME               256 // OMPI was bigger
 #define MPI_MAX_STRINGTAG_LEN               1024 // OMPI was bigger (v5.0+)
 #define MPI_MAX_PSET_NAME_LEN                512 // OMPI was bigger (v5.0+)
-```
-
-```c
-// Communicator split type constants - arbitrary values
-enum {
-    MPI_COMM_TYPE_SHARED        = 1,
-    MPI_COMM_TYPE_HW_UNGUIDED   = 2,
-    MPI_COMM_TYPE_HW_GUIDED     = 4
-};
-```
-
-```c
-//Results of communicator and group comparisons
-enum {
-    MPI_IDENT       = 0,
-    MPI_CONGRUENT   = 1,
-    MPI_SIMILAR     = 2,
-    MPI_UNEQUAL     = 3
-};
-```
-
-```c
-// Environmental inquiry keys and Predefined Attribute Keys
-// These apply to MPI_COMM_WORLD
-enum {
-    MPI_TAG_UB          = -1,
-    MPI_IO              = -2,
-    MPI_HOST            = -3,
-    MPI_WTIME_IS_GLOBAL = -4,
-    MPI_APPNUM          = -5,
-    MPI_LASTUSEDCODE    = -6,
-    MPI_UNIVERSE_SIZE   = -7
-};
-
-// Predefined Attribute Keys
-// These apply to Windows
-enum {
-    MPI_WIN_BASE            = -1,
-    MPI_WIN_DISP_UNIT       = -2,
-    MPI_WIN_SIZE            = -3,
-    MPI_WIN_CREATE_FLAVOR   = -4,
-    MPI_WIN_MODEL           = -5
-};
-```
-
-```c
-// MPI Window Create Flavors
-enum {
-    MPI_WIN_FLAVOR_ALLOCATE = 0xA,
-    MPI_WIN_FLAVOR_CREATE   = 0xC,
-    MPI_WIN_FLAVOR_DYNAMIC  = 0xD,
-    MPI_WIN_FLAVOR_SHARED   = 0x5
-}
-```
-
-```c
-// MPI Window Models
-enum {
-    MPI_WIN_SEPARATE    =  1,
-    MPI_WIN_UNIFIED     = -1
-}
 ```
 
 ```c
@@ -245,71 +150,108 @@ enum {
 ```
 
 ```c
-// Datatype Decoding Constants
 enum {
-    MPI_COMBINER_NAMED              = 1,
-    MPI_COMBINER_DUP                = 2,
-    MPI_COMBINER_CONTIGUOUS         = 3,
-    MPI_COMBINER_VECTOR             = 4,
-    MPI_COMBINER_HVECTOR            = 5,
-    MPI_COMBINER_INDEXED            = 6,
-    MPI_COMBINER_HINDEXED           = 7,
-    MPI_COMBINER_INDEXED_BLOCK      = 8,
-    MPI_COMBINER_HINDEXED_BLOCK     = 9,
-    MPI_COMBINER_STRUCT             = 10,
-    MPI_COMBINER_SUBARRAY           = 11,
-    MPI_COMBINER_DARRAY             = 12,
-    MPI_COMBINER_F90_REAL           = 13,
-    MPI_COMBINER_F90_COMPLEX        = 14,
-    MPI_COMBINER_F90_INTEGER        = 15,
-    MPI_COMBINER_RESIZED            = 16
-};
-```
+    // rank sentinels - must be negative
+    MPI_ANY_SOURCE      = -1,
+    MPI_PROC_NULL       = -2,
+    MPI_ROOT            = -3,
 
-```c
-// Threads Constants
-// These values are monotonic; i.e., MPI_THREAD_SINGLE < MPI_THREAD_FUNNELED < MPI_THREAD_SERIALIZED < MPI_THREAD_MULTIPLE.
-enum {
+    // tag sentinels - should be negative
+    MPI_ANY_TAG         = -10,
+
+    // These apply to MPI_COMM_WORLD
+    MPI_TAG_UB          = -100,
+    MPI_IO              = -101,
+    MPI_HOST            = -102,
+    MPI_WTIME_IS_GLOBAL = -103,
+    MPI_APPNUM          = -104,
+    MPI_LASTUSEDCODE    = -105,
+    MPI_UNIVERSE_SIZE   = -106,
+
+    // Predefined Attribute Keys
+    // These apply to Windows
+    MPI_WIN_BASE            = -200,
+    MPI_WIN_DISP_UNIT       = -201,
+    MPI_WIN_SIZE            = -202,
+    MPI_WIN_CREATE_FLAVOR   = -203,
+    MPI_WIN_MODEL           = -204,
+
+    // attribute constant - must be negative
+    MPI_KEYVAL_INVALID  = -300,
+
+    // special displacement for sequential access file - should be negative
+    MPI_DISPLACEMENT_CURRENT = -400,
+
+    // multi-purpose sentinel - must be negative
+    MPI_UNDEFINED       = -500,
+
+    // Environmental inquiry keys and Predefined Attribute Keys
+    // Threads Constants
+    // These values are monotonic; i.e., SINGLE < FUNNELED < SERIALIZED < MULTIPLE.
     MPI_THREAD_SINGLE       = 100,
     MPI_THREAD_FUNNELED     = 200,
     MPI_THREAD_SERIALIZED   = 300,
-    MPI_THREAD_MULTIPLE     = 400
-};
-```
+    MPI_THREAD_MULTIPLE     = 400,
 
-```c
-//
-enum {
-    MPI_DISPLACEMENT_CURRENT = -54278278 // OMPI and MPICH agree
-}
-```
+    //Results of communicator and group comparisons
+    MPI_IDENT       = 500,
+    MPI_CONGRUENT   = 501,
+    MPI_SIMILAR     = 502,
+    MPI_UNEQUAL     = 503,
 
-```c
-// File Operation Constants (?)
-enum {
-    MPI_DISTRIBUTE_BLOCK        = 0xB,
-    MPI_DISTRIBUTE_CYCLIC       = 0xC,
-    MPI_DISTRIBUTE_DFLT_DARG    = 0xD,
-    MPI_DISTRIBUTE_NONE         = 0xE
-};
+    // RMA lock constants - arbitrary values
+    MPI_LOCK_EXCLUSIVE  = 600,
+    MPI_LOCK_SHARED     = 601,
 
-enum {
-    MPI_ORDER_C                 = 0xC,
-    MPI_ORDER_FORTRAN           = 0xF
-};
+    // Communicator split type constants - arbitrary values
+    MPI_COMM_TYPE_SHARED        = 700,
+    MPI_COMM_TYPE_HW_UNGUIDED   = 701,
+    MPI_COMM_TYPE_HW_GUIDED     = 702,
 
-enum {
-    MPI_SEEK_CUR                = 0xC,
-    MPI_SEEK_END                = 0xE,
-    MPI_SEEK_SET                = 0x5
-};
-```
+    // MPI Window Create Flavors
+    MPI_WIN_FLAVOR_ALLOCATE = 800,
+    MPI_WIN_FLAVOR_CREATE   = 801,
+    MPI_WIN_FLAVOR_DYNAMIC  = 802,
+    MPI_WIN_FLAVOR_SHARED   = 803,
 
-```c
-// F90 Datatype Matching Constants
-enum {
-    MPI_TYPECLASS_REAL          = 1,
-    MPI_TYPECLASS_COMPLEX       = 2,
-    MPI_TYPECLASS_INTEGER       = 3
+    // MPI Window Models
+    MPI_WIN_SEPARATE    = 900,
+    MPI_WIN_UNIFIED     = 901,
+
+    // Datatype Decoding Constants
+    MPI_COMBINER_NAMED              = 1000,
+    MPI_COMBINER_DUP                = 1001,
+    MPI_COMBINER_CONTIGUOUS         = 1002,
+    MPI_COMBINER_VECTOR             = 1003,
+    MPI_COMBINER_HVECTOR            = 1004,
+    MPI_COMBINER_INDEXED            = 1005,
+    MPI_COMBINER_HINDEXED           = 1006,
+    MPI_COMBINER_INDEXED_BLOCK      = 1007,
+    MPI_COMBINER_HINDEXED_BLOCK     = 1008,
+    MPI_COMBINER_STRUCT             = 1009,
+    MPI_COMBINER_SUBARRAY           = 1010,
+    MPI_COMBINER_DARRAY             = 1011,
+    MPI_COMBINER_F90_REAL           = 1012,
+    MPI_COMBINER_F90_COMPLEX        = 1013,
+    MPI_COMBINER_F90_INTEGER        = 1014,
+    MPI_COMBINER_RESIZED            = 1015,
+
+    // File Operation Constants (?)
+    MPI_DISTRIBUTE_BLOCK        = 1100,
+    MPI_DISTRIBUTE_CYCLIC       = 1101,
+    MPI_DISTRIBUTE_DFLT_DARG    = 1102,
+    MPI_DISTRIBUTE_NONE         = 1103,
+
+    MPI_ORDER_C                 = 1200,
+    MPI_ORDER_FORTRAN           = 1201,
+
+    MPI_SEEK_CUR                = 1300,
+    MPI_SEEK_END                = 1301,
+    MPI_SEEK_SET                = 1302,
+
+    // F90 Datatype Matching Constants
+    MPI_TYPECLASS_REAL          = 1400,
+    MPI_TYPECLASS_COMPLEX       = 1401,
+    MPI_TYPECLASS_INTEGER       = 1402
 }
 ```
