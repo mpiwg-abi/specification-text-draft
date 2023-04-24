@@ -255,3 +255,18 @@ enum {
     MPI_TYPECLASS_INTEGER       = 1402
 }
 ```
+
+```
+#define MPI_NULL_COPY_FN        ((MPI_Copy_function*)0x0)
+#define MPI_DUP_FN              ((MPI_Copy_function*)0x1)
+#define MPI_NULL_DELETE_FN      ((MPI_Delete_function*)0x0)
+#define MPI_COMM_NULL_COPY_FN   ((MPI_Comm_copy_attr_function*)0x0)
+#define MPI_COMM_DUP_FN         ((MPI_Comm_copy_attr_function*)0x1)
+#define MPI_COMM_NULL_DELETE_FN ((MPI_Comm_delete_attr_function*)0x0)
+#define MPI_TYPE_NULL_COPY_FN   ((MPI_Type_copy_attr_function*)0x0)
+#define MPI_TYPE_DUP_FN         ((MPI_Type_copy_attr_function*)0x1)
+#define MPI_TYPE_NULL_DELETE_FN ((MPI_Type_delete_attr_function*)0x0)
+#define MPI_WIN_NULL_COPY_FN    ((MPI_Win_copy_attr_function*)0x0)
+#define MPI_WIN_DUP_FN          ((MPI_Win_copy_attr_function*)0x1)
+#define MPI_WIN_NULL_DELETE_FN  ((MPI_Win_delete_attr_function*)0x0)
+```
