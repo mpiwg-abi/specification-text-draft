@@ -82,8 +82,8 @@ or `union` handles fail to satisfy the existing API requirements.
 
 For example, the following handle type definitions are part of the MPI ABI:
 ```c
-typedef struct mpi_abi_comm * MPI_Comm;
-typedef struct mpi_abi_request * MPI_Request;
+typedef struct MPI_ABI_Comm * MPI_Comm;
+typedef struct MPI_ABI_Request * MPI_Request;
 ...
 ```
 
