@@ -1,3 +1,8 @@
+# THIS IS DEPRECATED
+
+Use https://github.com/mpiwg-abi/mpi-standard/tree/abi instead.
+
+
 # Application Binary Interface
 
 The other chapters of the MPI standard specify an Application Programminng Interface (API)
