@@ -5,9 +5,9 @@ handle_types = ["" for x in range(0,1025)]
 
 def parse_datatype(h):
     handle_types[h] = "MPI_Datatype"
-    if not(h & 0b100_000_000):
-        category = (h & 0b11_111_000) >> 3
-        kind     = (h & 0b00_000_111)
+    if not(h & 0b1_0000_0000):
+        category = (h & 0b_1111_1000) >> 3
+        kind     = (h & 0b_0000_0111)
         # category buckets:
         # 00... not strictly fixed-size
         # 01... C/C++ fixed-size
@@ -182,7 +182,7 @@ def parse_datatype(h):
             # 0b111: (size=1) ? "MPI_BYTE" : ""<C++ complex 2x(n/2)b>""
             # Fortran
             # 0b000: "MPI_INTEGER(n)"
-            # 0b001: "MPI_LOGICAL8(n) (not standard)"
+            # 0b001: "MPI_LOGICAL(n) (not standard)"
             # 0b010: "MPI_REAL(n)"
             # 0b011: (size=1) ? "MPI_CHARACTER" : "MPI_COMPLEX(n)"
 
@@ -351,8 +351,8 @@ def parse_datatype(h):
         constants[h] = "reserved datatype"
 
 def parse_other(h):
-    handle_type = (h & 0b11_111_100) >> 2;
-    if   (handle_type == 0b000_000):
+    handle_type = (h & 0b1111_1100) >> 2;
+    if   (handle_type == 0b00_0000):
         handle_types[h] = "MPI_Comm"
         comm_type = (h & 0b11) 
         if   (comm_type == 0b00):
@@ -403,6 +403,13 @@ def parse_other(h):
         else:
             constants[h] = "reserved message"
     elif (handle_type == 0b000_110):
+        handle_types[h] = "MPI_Info"
+        info_type = (h & 0b11)
+        if   (info_type == 0b00):
+            constants[h] = "MPI_INFO_NULL"
+        else:
+            constants[h] = "reserved info"
+    elif (handle_type == 0b001_000):
         handle_types[h] = "MPI_Errhandler"
         errhandler_type = (h & 0b11) 
         if   (errhandler_type == 0b00):
@@ -413,7 +420,7 @@ def parse_other(h):
             constants[h] = "MPI_ERRORS_RETURN"
         elif (errhandler_type == 0b11):
             constants[h] = "MPI_ERRORS_ABORT"
-    elif (handle_type == 0b001_000):
+    elif (handle_type == 0b010_000):
         handle_types[h] = "MPI_Request"
         request_type = (h & 0b11) 
         if (request_type == 0b00):
@@ -481,17 +488,17 @@ def parse_handle(h):
         return
 
     # datatype
-    if (h & 0b1000000000):
+    if (h & 0b10_0000_0000):
         parse_datatype(h)
     # not a datatype
     else:
         # not an op (or otherwise reserved)
-        if (h & 0b0100000000):
+        if (h & 0b01_0000_0000):
             parse_other(h)
         # op or reserved
         else:
-            if (h & 0b0011100000 == 0b0):
-                if (h & 0b0000011111 == 0b0):
+            if (h & 0b00_1110_0000 == 0b0):
+                if (h & 0b00_0001_1111 == 0b0):
                     constants[h] = "invalid (uninitialized)"
                 else:
                     constants[h] = "reserved handle"
