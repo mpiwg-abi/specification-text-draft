@@ -351,79 +351,83 @@ def parse_datatype(h):
         constants[h] = "reserved datatype"
 
 def parse_other(h):
-    handle_type = (h & 0b1111_1100) >> 2;
-    if   (handle_type == 0b00_0000):
+    handle_type = (h & 0b11111_000) >> 3;
+    if   (handle_type == 0b00000):
         handle_types[h] = "MPI_Comm"
-        comm_type = (h & 0b11) 
-        if   (comm_type == 0b00):
+        comm_type = (h & 0b111) 
+        if   (comm_type == 0b000):
             constants[h] = "MPI_COMM_NULL"
-        elif (comm_type == 0b01):
+        elif (comm_type == 0b001):
             constants[h] = "MPI_COMM_WORLD"
-        elif (comm_type == 0b10):
+        elif (comm_type == 0b010):
             constants[h] = "MPI_COMM_SELF"
         else:
             constants[h] = "reserved comm"
-    elif (handle_type == 0b000_001):
+    elif (handle_type == 0b00001):
         handle_types[h] = "MPI_Group"
-        group_type = (h & 0b11) 
-        if   (group_type == 0b00):
+        group_type = (h & 0b111) 
+        if   (group_type == 0b000):
             constants[h] = "MPI_GROUP_NULL"
-        elif (group_type == 0b01):
+        elif (group_type == 0b001):
             constants[h] = "MPI_GROUP_EMPTY"
         else:
             constants[h] = "reserved group"
-    elif (handle_type == 0b000_010):
+    elif (handle_type == 0b00010):
         handle_types[h] = "MPI_Win"
-        win_type = (h & 0b11) 
-        if   (win_type == 0b00):
+        win_type = (h & 0b111) 
+        if   (win_type == 0b000):
             constants[h] = "MPI_WIN_NULL"
         else:
             constants[h] = "reserved win"
-    elif (handle_type == 0b000_011):
+    elif (handle_type == 0b00011):
         handle_types[h] = "MPI_File"
-        file_type = (h & 0b11) 
-        if   (file_type == 0b00):
+        file_type = (h & 0b111) 
+        if   (file_type == 0b000):
             constants[h] = "MPI_FILE_NULL"
         else:
             constants[h] = "reserved file"
-    elif (handle_type == 0b000_100):
+    elif (handle_type == 0b00100):
         handle_types[h] = "MPI_Session"
-        session_type = (h & 0b11) 
-        if   (session_type == 0b00):
+        session_type = (h & 0b111) 
+        if   (session_type == 0b000):
             constants[h] = "MPI_SESSION_NULL"
         else:
             constants[h] = "reserved session"
-    elif (handle_type == 0b000_101):
+    elif (handle_type == 0b00101):
         handle_types[h] = "MPI_Message"
-        message_type = (h & 0b11) 
-        if   (message_type == 0b00):
+        message_type = (h & 0b111) 
+        if   (message_type == 0b000):
             constants[h] = "MPI_MESSAGE_NULL"
-        elif (message_type == 0b01):
+        elif (message_type == 0b001):
             constants[h] = "MPI_MESSAGE_NO_PROC"
         else:
             constants[h] = "reserved message"
-    elif (handle_type == 0b000_110):
+    elif (handle_type == 0b00110):
         handle_types[h] = "MPI_Info"
-        info_type = (h & 0b11)
-        if   (info_type == 0b00):
+        info_type = (h & 0b111)
+        if   (info_type == 0b000):
             constants[h] = "MPI_INFO_NULL"
         else:
             constants[h] = "reserved info"
-    elif (handle_type == 0b001_000):
+    # 0b00111 (space for new handle that only needs 8 slots)
+    elif (handle_type == 0b01000):
         handle_types[h] = "MPI_Errhandler"
-        errhandler_type = (h & 0b11) 
-        if   (errhandler_type == 0b00):
+        errhandler_type = (h & 0b111) 
+        if   (errhandler_type == 0b000):
             constants[h] = "MPI_ERRHANDLER_NULL"
-        elif (errhandler_type == 0b01):
+        elif (errhandler_type == 0b001):
             constants[h] = "MPI_ERRORS_ARE_FATAL"
-        elif (errhandler_type == 0b10):
+        elif (errhandler_type == 0b010):
             constants[h] = "MPI_ERRORS_RETURN"
-        elif (errhandler_type == 0b11):
+        elif (errhandler_type == 0b011):
             constants[h] = "MPI_ERRORS_ABORT"
-    elif (handle_type == 0b010_000):
+        else:
+            constants[h] = "reserved errhandler"
+    # 0b01... (lots of space for errhandlers, if necessary)
+    elif (handle_type == 0b10000):
         handle_types[h] = "MPI_Request"
-        request_type = (h & 0b11) 
-        if (request_type == 0b00):
+        request_type = (h & 0b111) 
+        if (request_type == 0b000):
             constants[h] = "MPI_REQUEST_NULL"
         else:
             constants[h] = "reserved request"
@@ -482,30 +486,29 @@ def parse_op(h):
             constants[h] = "reserved other op"
 
 def parse_handle(h):
+
+    # uninitialized handle
+    if (h == 0b0):
+        constants[h] = "invalid (uninitialized)"
+        return
+
     # if h > 1023 also works :-)
     if (h & 0b1111111111111111111111111111111111111111111111111111110000000000):
         constants[h] = "not a predefined handle constant"
         return
 
-    # datatype
-    if (h & 0b10_0000_0000):
+    # datatype: 0b10_..._.....
+    if (h & 0b10_000_00000):
         parse_datatype(h)
-    # not a datatype
+    # other: 0b01_..._.....
+    elif (h & 0b01_000_00000):
+        parse_other(h)
+    # op: 0b00_001_.....
+    elif (h & 0b11_111_00000 == 0b00_001_00000):
+        parse_op(h)
+    # reserved: 0b11_..._..... or 0b00_(not op)
     else:
-        # not an op (or otherwise reserved)
-        if (h & 0b01_0000_0000):
-            parse_other(h)
-        # op or reserved
-        else:
-            if (h & 0b00_1110_0000 == 0b0):
-                if (h & 0b00_0001_1111 == 0b0):
-                    constants[h] = "invalid (uninitialized)"
-                else:
-                    constants[h] = "reserved handle"
-            elif (h & 0b0011100000 == 0b0000100000):
-                parse_op(h)
-            else:
-                constants[h] = "reserved handle"
+        constants[h] = "reserved handle"
         
 
 def main():
