@@ -281,7 +281,7 @@ def parse_datatype(h):
                     case 0b001:
                         constants[h] = "MPI_LOGICAL1 (not standard)"
                     case 0b010:
-                        constants[h] = "MPI_REAL1"
+                        constants[h] = "MPI_REAL1 (not standard)"
                     case 0b011:
                         constants[h] = "MPI_CHARACTER"
                     case _:
