@@ -166,7 +166,7 @@ def parse_datatype(h):
                     case 0b001:
                         constants[h] = "MPI_CXX_BOOL"
                     case 0b100:
-                        constants[h] = "MPI_WCHAR_T"
+                        constants[h] = "MPI_WCHAR"
                     case _:
                         constants[h] = "reserved datatype"
 
