@@ -51,7 +51,7 @@ def parse_datatype(h):
                         case 0b00:
                             constants[h] = "MPI_UNSIGNED_SHORT"
                         case 0b01:
-                            constants[h] = "MPI_UNSIGNED_INT"
+                            constants[h] = "MPI_UNSIGNED"
                         case 0b10:
                             constants[h] = "MPI_UNSIGNED_LONG"
                         case 0b11:
