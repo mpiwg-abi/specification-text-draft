@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import sys
+
 constants    = ["" for x in range(0,1025)]
 handle_types = ["" for x in range(0,1025)]
 
@@ -279,9 +281,9 @@ def parse_datatype(h):
                     case 0b000:
                         constants[h] = "MPI_INTEGER1"
                     case 0b001:
-                        constants[h] = "MPI_LOGICAL1 (not standard)"
+                        constants[h] = "MPIX_LOGICAL1"
                     case 0b010:
-                        constants[h] = "MPI_REAL1 (not standard)"
+                        constants[h] = "MPIX_REAL1"
                     case 0b011:
                         constants[h] = "MPI_CHARACTER"
                     case _:
@@ -292,7 +294,7 @@ def parse_datatype(h):
                     case 0b000:
                         constants[h] = "MPI_INTEGER2"
                     case 0b001:
-                        constants[h] = "MPI_LOGICAL2 (not standard)"
+                        constants[h] = "MPIX_LOGICAL2"
                     case 0b010:
                         constants[h] = "MPI_REAL2"
                     case 0b011:
@@ -305,7 +307,7 @@ def parse_datatype(h):
                     case 0b000:
                         constants[h] = "MPI_INTEGER4"
                     case 0b001:
-                        constants[h] = "MPI_LOGICAL4 (not standard)"
+                        constants[h] = "MPIX_LOGICAL4"
                     case 0b010:
                         constants[h] = "MPI_REAL4"
                     case 0b011:
@@ -318,7 +320,7 @@ def parse_datatype(h):
                     case 0b0000:
                         constants[h] = "MPI_INTEGER8"
                     case 0b0001:
-                        constants[h] = "MPI_LOGICAL8 (not standard)"
+                        constants[h] = "MPIX_LOGICAL8"
                     case 0b0010:
                         constants[h] = "MPI_REAL8"
                     case 0b0011:
@@ -516,10 +518,19 @@ def main():
         parse_handle(h)
         #print(h,constants[h])
 
-    for h in range(0,1025):
-        #print(h,bin(h),constants[h],handle_types[h],hex(h))
-        print(format(h,"4d"),format(h,"012b"),constants[h])
-        #print(h,constants[h])
+    if ( len(sys.argv) == 1 ):
+        for h in range(0,1025):
+            #print(h,bin(h),constants[h],handle_types[h],hex(h))
+            print(format(h,"4d"),format(h,"012b"),constants[h])
+            #print(h,constants[h])
+
+    # make mpi.h
+    if ( len(sys.argv) > 1 ):
+        for h in range(0,1025):
+            if (constants[h][0:3] == "MPI"):
+                #print(format('#define',"7s"),constants[h],'(',handle_types[h],') 0x',format(h,"4x"))
+                line = '#define ' + format(constants[h],"30s") + " (" + handle_types[h] + ")" + "0x" + format(h,"08x")
+                print(line)
 
 if __name__ == '__main__':
     main()
