@@ -176,7 +176,7 @@ enum {
     MPI_WIN_CREATE_FLAVOR   = -304,
     MPI_WIN_MODEL           = -305,
 
-    // attribute constant - must be negative
+    // attribute constant - should be negative
     MPI_KEYVAL_INVALID  = -401,
 
     // special displacement for sequential access file - should be negative
