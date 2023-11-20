@@ -116,7 +116,7 @@ enum {
 // String size constants
 #define MPI_MAX_DATAREP_STRING               128 // MPICH=OMPI=128 (MPICH has it in `mpio.h`)
 #define MPI_MAX_ERROR_STRING                 512 // MPICH was bigger
-#define MPI_MAX_INFO_KEY                     255 // MPICH was bigger
+#define MPI_MAX_INFO_KEY                     256 // MPICH was bigger
 #define MPI_MAX_INFO_VAL                    1024 // MPICH was bigger
 #define MPI_MAX_LIBRARY_VERSION_STRING      8192 // MPICH was bigger
 #define MPI_MAX_OBJECT_NAME                  128 // MPICH was bigger
@@ -252,7 +252,12 @@ enum {
     // F90 Datatype Matching Constants
     MPI_TYPECLASS_REAL          = -1701,
     MPI_TYPECLASS_COMPLEX       = -1702,
-    MPI_TYPECLASS_INTEGER       = -1703
+    MPI_TYPECLASS_INTEGER       = -1703,
+
+    // MPI_Topo_test
+    MPI_GRAPH                   = -1801,
+    MPI_DIST_GRAPH              = -1802,
+    MPI_CART                    = -1803
 }
 ```
 
