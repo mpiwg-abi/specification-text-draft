@@ -157,107 +157,112 @@ enum {
     MPI_ROOT            = -3,
 
     // tag sentinels - should be negative
-    MPI_ANY_TAG         = -101,
-
-    // These apply to MPI_COMM_WORLD
-    MPI_TAG_UB          = -201,
-    MPI_IO              = -202,
-    MPI_HOST            = -203,
-    MPI_WTIME_IS_GLOBAL = -204,
-    MPI_APPNUM          = -205,
-    MPI_LASTUSEDCODE    = -206,
-    MPI_UNIVERSE_SIZE   = -207,
-
-    // Predefined Attribute Keys
-    // These apply to Windows
-    MPI_WIN_BASE            = -301,
-    MPI_WIN_DISP_UNIT       = -302,
-    MPI_WIN_SIZE            = -303,
-    MPI_WIN_CREATE_FLAVOR   = -304,
-    MPI_WIN_MODEL           = -305,
+    MPI_ANY_TAG         = -31,
 
     // attribute constant - should be negative
-    MPI_KEYVAL_INVALID  = -401,
+    MPI_KEYVAL_INVALID  = -127,
 
     // special displacement for sequential access file - should be negative
-    MPI_DISPLACEMENT_CURRENT = -501,
+    MPI_DISPLACEMENT_CURRENT = -255,
 
     // multi-purpose sentinel - must be negative
-    MPI_UNDEFINED       = -601,
+    MPI_UNDEFINED       = -32766 // make it match OMPI and MPICH
+}
+```
 
-    //Results of communicator and group comparisons
-    MPI_IDENT       = -701,
-    MPI_CONGRUENT   = -702,
-    MPI_SIMILAR     = -703,
-    MPI_UNEQUAL     = -704,
-
+```c
+enum {
     // Environmental inquiry keys and Predefined Attribute Keys
     // Threads Constants
     // These values are monotonic; i.e., SINGLE < FUNNELED < SERIALIZED < MULTIPLE.
-    MPI_THREAD_MULTIPLE     = -801,
-    MPI_THREAD_SERIALIZED   = -802,
-    MPI_THREAD_FUNNELED     = -803,
-    MPI_THREAD_SINGLE       = -804,
+    MPI_THREAD_SINGLE     = 0, 
+    MPI_THREAD_FUNNELED   = 1,
+    MPI_THREAD_SERIALIZED = 2,
+    MPI_THREAD_MULTIPLE   = 7, // in case we need other threading levels below MULTIPLE
+
+    // array order
+    MPI_ORDER_C       = 0xC, // 12
+    MPI_ORDER_FORTRAN = 0xF, // 15
 
     // RMA lock constants - arbitrary values
-    MPI_LOCK_EXCLUSIVE  = -901,
-    MPI_LOCK_SHARED     = -902,
-
-    // Communicator split type constants - arbitrary values
-    MPI_COMM_TYPE_SHARED        = -1001,
-    MPI_COMM_TYPE_HW_UNGUIDED   = -1002,
-    MPI_COMM_TYPE_HW_GUIDED     = -1003,
-
-    // MPI Window Create Flavors
-    MPI_WIN_FLAVOR_ALLOCATE = -1101,
-    MPI_WIN_FLAVOR_CREATE   = -1102,
-    MPI_WIN_FLAVOR_DYNAMIC  = -1103,
-    MPI_WIN_FLAVOR_SHARED   = -1104,
+    MPI_LOCK_SHARED    = 21,
+    MPI_LOCK_EXCLUSIVE = 22,
 
     // MPI Window Models
-    MPI_WIN_SEPARATE    = -1201,
-    MPI_WIN_UNIFIED     = -1202,
+    MPI_WIN_UNIFIED  = 31,
+    MPI_WIN_SEPARATE = 32,
 
-    // Datatype Decoding Constants
-    MPI_COMBINER_NAMED              = -1301,
-    MPI_COMBINER_DUP                = -1302,
-    MPI_COMBINER_CONTIGUOUS         = -1303,
-    MPI_COMBINER_VECTOR             = -1304,
-    MPI_COMBINER_HVECTOR            = -1305,
-    MPI_COMBINER_INDEXED            = -1306,
-    MPI_COMBINER_HINDEXED           = -1307,
-    MPI_COMBINER_INDEXED_BLOCK      = -1308,
-    MPI_COMBINER_HINDEXED_BLOCK     = -1309,
-    MPI_COMBINER_STRUCT             = -1310,
-    MPI_COMBINER_SUBARRAY           = -1311,
-    MPI_COMBINER_DARRAY             = -1312,
-    MPI_COMBINER_F90_REAL           = -1313,
-    MPI_COMBINER_F90_COMPLEX        = -1314,
-    MPI_COMBINER_F90_INTEGER        = -1315,
-    MPI_COMBINER_RESIZED            = -1316,
+    // MPI Window Create Flavors
+    MPI_WIN_FLAVOR_ALLOCATE = 41,
+    MPI_WIN_FLAVOR_CREATE   = 42,
+    MPI_WIN_FLAVOR_DYNAMIC  = 43,
+    MPI_WIN_FLAVOR_SHARED   = 44,
 
-    // File Operation Constants (?)
-    MPI_DISTRIBUTE_BLOCK        = -1401,
-    MPI_DISTRIBUTE_CYCLIC       = -1402,
-    MPI_DISTRIBUTE_DFLT_DARG    = -1403,
-    MPI_DISTRIBUTE_NONE         = -1404,
-
-    MPI_ORDER_C                 = -1501,
-    MPI_ORDER_FORTRAN           = -1502,
-
-    MPI_SEEK_CUR                = -1601,
-    MPI_SEEK_END                = -1602,
-    MPI_SEEK_SET                = -1603,
-
-    // F90 Datatype Matching Constants
-    MPI_TYPECLASS_REAL          = -1701,
-    MPI_TYPECLASS_COMPLEX       = -1702,
-    MPI_TYPECLASS_INTEGER       = -1703,
+    //Results of communicator and group comparisons
+    MPI_IDENT       = 101,
+    MPI_CONGRUENT   = 102,
+    MPI_SIMILAR     = 103,
+    MPI_UNEQUAL     = 104,
 
     // MPI_Topo_test
-    MPI_GRAPH                   = -1801,
-    MPI_DIST_GRAPH              = -1802,
-    MPI_CART                    = -1803
+    MPI_GRAPH      = 201,
+    MPI_DIST_GRAPH = 202,
+    MPI_CART       = 203,
+
+    // Datatype Decoding Constants
+    MPI_COMBINER_NAMED              = 301,
+    MPI_COMBINER_DUP                = 302,
+    MPI_COMBINER_CONTIGUOUS         = 303,
+    MPI_COMBINER_VECTOR             = 304,
+    MPI_COMBINER_HVECTOR            = 305,
+    MPI_COMBINER_INDEXED            = 306,
+    MPI_COMBINER_HINDEXED           = 307,
+    MPI_COMBINER_INDEXED_BLOCK      = 308,
+    MPI_COMBINER_HINDEXED_BLOCK     = 309,
+    MPI_COMBINER_STRUCT             = 310,
+    MPI_COMBINER_SUBARRAY           = 311,
+    MPI_COMBINER_DARRAY             = 312,
+    MPI_COMBINER_F90_REAL           = 313,
+    MPI_COMBINER_F90_COMPLEX        = 314,
+    MPI_COMBINER_F90_INTEGER        = 315,
+    MPI_COMBINER_RESIZED            = 316,
+
+    // File Operation Constants (?)
+    MPI_DISTRIBUTE_NONE         = 404,
+    MPI_DISTRIBUTE_BLOCK        = 401,
+    MPI_DISTRIBUTE_CYCLIC       = 402,
+    MPI_DISTRIBUTE_DFLT_DARG    = 403,
+
+    MPI_SEEK_CUR                = 601,
+    MPI_SEEK_END                = 602,
+    MPI_SEEK_SET                = 603,
+
+    // F90 Datatype Matching Constants
+    MPI_TYPECLASS_REAL          = 801,
+    MPI_TYPECLASS_COMPLEX       = 802,
+    MPI_TYPECLASS_INTEGER       = 803,
+
+    // Communicator split type constants - arbitrary values
+    MPI_COMM_TYPE_SHARED        = 1001,
+    MPI_COMM_TYPE_HW_UNGUIDED   = 1002,
+    MPI_COMM_TYPE_HW_GUIDED     = 1003,
+
+    // These apply to MPI_COMM_WORLD
+    MPI_TAG_UB          = 10001,
+    MPI_IO              = 10002,
+    MPI_HOST            = 10003,
+    MPI_WTIME_IS_GLOBAL = 10004,
+    MPI_APPNUM          = 10005,
+    MPI_LASTUSEDCODE    = 10006,
+    MPI_UNIVERSE_SIZE   = 10007,
+
+    // Predefined Attribute Keys
+    // These apply to Windows
+    MPI_WIN_BASE            = 20001,
+    MPI_WIN_DISP_UNIT       = 20002,
+    MPI_WIN_SIZE            = 20003,
+    MPI_WIN_CREATE_FLAVOR   = 20004,
+    MPI_WIN_MODEL           = 20005
 }
 ```
 
