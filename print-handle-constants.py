@@ -296,7 +296,7 @@ def parse_datatype(h):
                     case 0b001:
                         constants[h] = "MPIX_LOGICAL2"
                     case 0b010:
-                        constants[h] = "MPI_REAL2"
+                        constants[h] = "MPIX_REAL2"
                     case 0b011:
                         constants[h] = "<Fortran complex 2x8b>"
                     case _:
@@ -311,7 +311,7 @@ def parse_datatype(h):
                     case 0b010:
                         constants[h] = "MPI_REAL4"
                     case 0b011:
-                        constants[h] = "MPI_COMPLEX4"
+                        constants[h] = "MPIX_COMPLEX4"
                     case _:
                         constants[h] = "reserved datatype"
 
@@ -409,6 +409,8 @@ def parse_other(h):
         info_type = (h & 0b111)
         if   (info_type == 0b000):
             constants[h] = "MPI_INFO_NULL"
+        if   (info_type == 0b001):
+            constants[h] = "MPI_INFO_ENV"
         else:
             constants[h] = "reserved info"
     # 0b00111 (space for new handle that only needs 8 slots)
@@ -444,44 +446,44 @@ def parse_op(h):
     op = h & 0b111
     if   (op_type == 0b00): # arithmetic
         if   (op == 0b000):
-            constants[h] = "MPI_OP_NULL"
+            constants[h] = "MPI_NULL"
         elif (op == 0b001):
-            constants[h] = "MPI_OP_SUM"
+            constants[h] = "MPI_SUM"
         elif (op == 0b010):
-            constants[h] = "MPI_OP_MIN"
+            constants[h] = "MPI_MIN"
         elif (op == 0b011):
-            constants[h] = "MPI_OP_MAX"
+            constants[h] = "MPI_MAX"
         elif (op == 0b100):
-            constants[h] = "MPI_OP_PROD"
+            constants[h] = "MPI_PROD"
         else:
             constants[h] = "reserved arithmetic op"
     elif (op_type == 0b01): # bit ops
         if   (op == 0b000):
             constants[h] = "MPI_OP_BAND"
         elif (op == 0b001):
-            constants[h] = "MPI_OP_BOR"
+            constants[h] = "MPI_BOR"
         elif (op == 0b010):
-            constants[h] = "MPI_OP_BXOR"
+            constants[h] = "MPI_BXOR"
         else:
             constants[h] = "reserved bit op"
     elif (op_type == 0b10): # logical ops
         op = h & 0b111
         if   (op == 0b000):
-            constants[h] = "MPI_OP_LAND"
+            constants[h] = "MPI_LAND"
         elif (op == 0b001):
-            constants[h] = "MPI_OP_LOR"
+            constants[h] = "MPI_LOR"
         elif (op == 0b010):
-            constants[h] = "MPI_OP_LXOR"
+            constants[h] = "MPI_LXOR"
         else:
             constants[h] = "reserved logical op"
     elif (op_type == 0b11): # other ops
         op = h & 0b111
         if   (op == 0b000):
-            constants[h] = "MPI_OP_MINLOC"
+            constants[h] = "MPI_MINLOC"
         elif (op == 0b001):
-            constants[h] = "MPI_OP_MAXLOC"
+            constants[h] = "MPI_MAXLOC"
         elif (op == 0b100):
-            constants[h] = "MPI_OP_REPLACE"
+            constants[h] = "MPI_REPLACE"
         elif (op == 0b101):
             constants[h] = "MPI_NO_OP"
         else:
