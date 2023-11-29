@@ -98,15 +98,16 @@ enum {
 
 ```c
 // Buffer Address Constants
-#define MPI_BOTTOM          ((void*)0)
-#define MPI_IN_PLACE        ((void*)1)
+#define MPI_BOTTOM           ((void*)0)
+#define MPI_IN_PLACE         ((void*)1)
+#define MPI_BUFFER_AUTOMATIC ((void*)2)
 
 // Constants Specifying Empty or Ignored Input
 #define MPI_ARGV_NULL       ((char**)0)
 #define MPI_ARGVS_NULL      ((char***)0)
 #define MPI_ERRCODES_IGNORE ((int*)0)
 #define MPI_STATUS_IGNORE   ((MPI_Status*)0)
-#define MPI_STATUSES_IGNORE ((MPI_Status**)0)
+#define MPI_STATUSES_IGNORE ((MPI_Status*)0)
 #define MPI_UNWEIGHTED      ((int*)2)
 #define MPI_WEIGHTS_EMPTY   ((int*)3)
 
@@ -243,9 +244,10 @@ enum {
     MPI_TYPECLASS_INTEGER       = 803,
 
     // Communicator split type constants - arbitrary values
-    MPI_COMM_TYPE_SHARED        = 1001,
-    MPI_COMM_TYPE_HW_UNGUIDED   = 1002,
-    MPI_COMM_TYPE_HW_GUIDED     = 1003,
+    MPI_COMM_TYPE_SHARED          = 1001,
+    MPI_COMM_TYPE_HW_UNGUIDED     = 1002,
+    MPI_COMM_TYPE_HW_GUIDED       = 1003,
+    MPI_COMM_TYPE_RESOURCE_GUIDED = 1004,
 
     // These apply to MPI_COMM_WORLD
     MPI_TAG_UB          = 10001,
