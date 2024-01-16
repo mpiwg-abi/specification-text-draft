@@ -446,7 +446,7 @@ def parse_op(h):
     op = h & 0b111
     if   (op_type == 0b00): # arithmetic
         if   (op == 0b000):
-            constants[h] = "MPI_NULL"
+            constants[h] = "MPI_OP_NULL"
         elif (op == 0b001):
             constants[h] = "MPI_SUM"
         elif (op == 0b010):
@@ -459,7 +459,7 @@ def parse_op(h):
             constants[h] = "reserved arithmetic op"
     elif (op_type == 0b01): # bit ops
         if   (op == 0b000):
-            constants[h] = "MPI_OP_BAND"
+            constants[h] = "MPI_BAND"
         elif (op == 0b001):
             constants[h] = "MPI_BOR"
         elif (op == 0b010):
