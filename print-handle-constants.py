@@ -88,9 +88,9 @@ def parse_datatype(h):
             case 0b00_011:
                 match kind:
                     case 0b000:
-                        constants[h] = "MPI_INTEGER"
-                    case 0b001:
                         constants[h] = "MPI_LOGICAL"
+                    case 0b001:
+                        constants[h] = "MPI_INTEGER"
                     case 0b010:
                         constants[h] = "MPI_REAL"
                     case 0b011:
@@ -279,9 +279,9 @@ def parse_datatype(h):
             case 0b11_000: # 1 byte Fortran
                 match kind:
                     case 0b000:
-                        constants[h] = "MPI_INTEGER1"
-                    case 0b001:
                         constants[h] = "MPIX_LOGICAL1"
+                    case 0b001:
+                        constants[h] = "MPI_INTEGER1"
                     case 0b010:
                         constants[h] = "MPIX_REAL1"
                     case 0b011:
@@ -292,9 +292,9 @@ def parse_datatype(h):
             case 0b11_001: # 2 byte Fortran
                 match kind:
                     case 0b000:
-                        constants[h] = "MPI_INTEGER2"
-                    case 0b001:
                         constants[h] = "MPIX_LOGICAL2"
+                    case 0b001:
+                        constants[h] = "MPI_INTEGER2"
                     case 0b010:
                         constants[h] = "MPIX_REAL2"
                     case 0b011:
@@ -305,9 +305,9 @@ def parse_datatype(h):
             case 0b11_010: # 4 byte Fortran
                 match kind:
                     case 0b000:
-                        constants[h] = "MPI_INTEGER4"
-                    case 0b001:
                         constants[h] = "MPIX_LOGICAL4"
+                    case 0b001:
+                        constants[h] = "MPI_INTEGER4"
                     case 0b010:
                         constants[h] = "MPI_REAL4"
                     case 0b011:
@@ -318,9 +318,9 @@ def parse_datatype(h):
             case 0b11_011: # 8 byte Fortran
                 match kind:
                     case 0b0000:
-                        constants[h] = "MPI_INTEGER8"
-                    case 0b0001:
                         constants[h] = "MPIX_LOGICAL8"
+                    case 0b0001:
+                        constants[h] = "MPI_INTEGER8"
                     case 0b0010:
                         constants[h] = "MPI_REAL8"
                     case 0b0011:
@@ -331,6 +331,8 @@ def parse_datatype(h):
             case 0b11_100: # 16 byte Fortran
                 match kind:
                     case 0b0000:
+                        constants[h] = "MPIX_LOGICAL16"
+                    case 0b0001:
                         constants[h] = "MPI_INTEGER16"
                     case 0b0010:
                         constants[h] = "MPI_REAL16"
