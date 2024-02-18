@@ -541,7 +541,7 @@ def main():
         for h in range(0,1025):
             if (constants[h][0:3] == "MPI"):
                 #print(format('#define',"7s"),constants[h],'(',handle_types[h],') 0x',format(h,"4x"))
-                line = 'type(' +handle_types[h] + '), parameter :: ' + format(constants[h],"30s") + handle_types[h] + "(" + format(h,'08d') + ")"
+                line = 'type(' +handle_types[h] + '), parameter :: ' + format(constants[h],"30s") + ' = ' + handle_types[h] + "(" + format(h,'08d') + ")"
                 print(line)
 
 if __name__ == '__main__':
