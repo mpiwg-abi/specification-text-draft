@@ -529,11 +529,19 @@ def main():
             #print(h,constants[h])
 
     # make mpi.h
-    if ( len(sys.argv) > 1 ):
+    if ( len(sys.argv) > 1 and sys.argv[1] == "C" ):
         for h in range(0,1025):
             if (constants[h][0:3] == "MPI"):
                 #print(format('#define',"7s"),constants[h],'(',handle_types[h],') 0x',format(h,"4x"))
                 line = '#define ' + format(constants[h],"30s") + " (" + handle_types[h] + ")" + "0x" + format(h,"08x")
+                print(line)
+
+    # make mpi.mod constants
+    if ( len(sys.argv) > 1 and sys.argv[1] == "F" ):
+        for h in range(0,1025):
+            if (constants[h][0:3] == "MPI"):
+                #print(format('#define',"7s"),constants[h],'(',handle_types[h],') 0x',format(h,"4x"))
+                line = 'type(' +handle_types[h] + '), parameter :: ' + format(constants[h],"30s") + handle_types[h] + "(" + format(h,'08d') + ")"
                 print(line)
 
 if __name__ == '__main__':
