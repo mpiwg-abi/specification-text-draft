@@ -504,10 +504,10 @@ def parse_handle(h):
         return
 
     # datatype: 0b10_..._.....
-    if (h & 0b10_000_00000):
+    if (h & 0b11_000_00000 == 0b10_000_00000):
         parse_datatype(h)
     # other: 0b01_..._.....
-    elif (h & 0b01_000_00000):
+    elif (h & 0b11_000_00000 == 0b01_000_00000):
         parse_other(h)
     # op: 0b00_001_.....
     elif (h & 0b11_111_00000 == 0b00_001_00000):
