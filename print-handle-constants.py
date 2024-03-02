@@ -4,6 +4,7 @@ import sys
 
 constants    = ["" for x in range(0,1025)]
 handle_types = ["" for x in range(0,1025)]
+cname        = ["" for x in range(0,1025)]
 
 def parse_datatype(h):
     handle_types[h] = "MPI_Datatype"
@@ -25,10 +26,13 @@ def parse_datatype(h):
                         constants[h] = "MPI_DATATYPE_NULL"
                     case 0b001:
                         constants[h] = "MPI_AINT"
+                        cname[h]     = "MPI_Aint"
                     case 0b010:
                         constants[h] = "MPI_COUNT"
+                        cname[h]     = "MPI_Count"
                     case 0b011:
                         constants[h] = "MPI_OFFSET"
+                        cname[h]     = "MPI_Offset"
                     case 0b111:
                         constants[h] = "MPI_PACKED"
                     case _:
@@ -42,22 +46,30 @@ def parse_datatype(h):
                     match kind:
                         case 0b00:
                             constants[h] = "MPI_SHORT"
+                            cname[h]     = "short"
                         case 0b01:
                             constants[h] = "MPI_INT"
+                            cname[h]     = "int"
                         case 0b10:
                             constants[h] = "MPI_LONG"
+                            cname[h]     = "long"
                         case 0b11:
                             constants[h] = "MPI_LONG_LONG"
+                            cname[h]     = "long long"
                 else:
                     match kind:
                         case 0b00:
                             constants[h] = "MPI_UNSIGNED_SHORT"
+                            cname[h]     = "unsigned short"
                         case 0b01:
                             constants[h] = "MPI_UNSIGNED"
+                            cname[h]     = "unsigned int"
                         case 0b10:
                             constants[h] = "MPI_UNSIGNED_LONG"
+                            cname[h]     = "unsigned long"
                         case 0b11:
                             constants[h] = "MPI_UNSIGNED_LONG_LONG"
+                            cname[h]     = "unsigned long long"
 
             # C/C++ floating-point types
             case 0b00_010:
@@ -67,20 +79,26 @@ def parse_datatype(h):
                     match kind:
                         case 0b00:
                             constants[h] = "MPI_FLOAT"
+                            cname[h]     = "float"
                         case 0b10:
                             constants[h] = "MPI_C_FLOAT_COMPLEX"
+                            cname[h]     = "float _Complex"
                         case 0b11:
                             constants[h] = "MPI_CXX_FLOAT_COMPLEX"
+                            cname[h]     = "std::complex<float>"
                         case _:
                             constants[h] = "reserved datatype"
                 else:
                     match kind:
                         case 0b00:
                             constants[h] = "MPI_DOUBLE"
+                            cname[h]     = "double"
                         case 0b10:
                             constants[h] = "MPI_C_DOUBLE_COMPLEX"
+                            cname[h]     = "double _Complex"
                         case 0b11:
                             constants[h] = "MPI_CXX_DOUBLE_COMPLEX"
+                            cname[h]     = "std::complex<double>"
                         case _:
                             constants[h] = "reserved datatype"
 
@@ -89,16 +107,22 @@ def parse_datatype(h):
                 match kind:
                     case 0b000:
                         constants[h] = "MPI_LOGICAL"
+                        cname[h]     = "LOGICAL"
                     case 0b001:
                         constants[h] = "MPI_INTEGER"
+                        cname[h]     = "INTEGER"
                     case 0b010:
                         constants[h] = "MPI_REAL"
+                        cname[h]     = "REAL"
                     case 0b011:
                         constants[h] = "MPI_COMPLEX"
+                        cname[h]     = "COMPLEX"
                     case 0b100:
                         constants[h] = "MPI_DOUBLE_PRECISION"
+                        cname[h]     = "DOUBLE PRECISION"
                     case 0b101:
                         constants[h] = "MPI_DOUBLE_COMPLEX"
+                        cname[h]     = "DOUBLE COMPLEX"
                     case _:
                         constants[h] = "reserved datatype"
 
@@ -110,6 +134,7 @@ def parse_datatype(h):
                     match kind:
                         case 0b00:
                             constants[h] = "MPI_LONG_DOUBLE"
+                            cname[h]     = "long double"
                         case 0b10:
                             constants[h] = "<Fortran long double>"
                         case _:
@@ -118,8 +143,10 @@ def parse_datatype(h):
                     match kind:
                         case 0b00:
                             constants[h] = "MPI_C_LONG_DOUBLE_COMPLEX"
+                            cname[h]     = "long double _Complex"
                         case 0b01:
                             constants[h] = "MPI_CXX_LONG_DOUBLE_COMPLEX"
+                            cname[h]     = "std::complex<long double>"
                         case 0b10:
                             constants[h] = "<Fortran long double complex>"
                         case _:
@@ -165,10 +192,13 @@ def parse_datatype(h):
                 match kind:
                     case 0b000:
                         constants[h] = "MPI_C_BOOL"
+                        cname[h]     = "_Bool"
                     case 0b001:
                         constants[h] = "MPI_CXX_BOOL"
+                        cname[h]     = "bool"
                     case 0b100:
                         constants[h] = "MPI_WCHAR"
+                        cname[h]     = "wchar_t"
                     case _:
                         constants[h] = "reserved datatype"
 
@@ -192,16 +222,21 @@ def parse_datatype(h):
                 match kind:
                     case 0b000:
                         constants[h] = "MPI_INT8_T"
+                        cname[h]     = "int8_t"
                     case 0b001:
                         constants[h] = "MPI_UINT8_T"
+                        cname[h]     = "uint8_t"
                     case 0b010:
                         constants[h] = "<float 8b>"
                     case 0b011:
                         constants[h] = "MPI_CHAR"
+                        cname[h]     = "char"
                     case 0b100:
                         constants[h] = "MPI_SIGNED_CHAR"
+                        cname[h]     = "signed char"
                     case 0b101:
                         constants[h] = "MPI_UNSIGNED_CHAR"
+                        cname[h]     = "unsigned char"
                     case 0b111:
                         constants[h] = "MPI_BYTE"
                     case _:
@@ -211,8 +246,10 @@ def parse_datatype(h):
                 match kind:
                     case 0b000:
                         constants[h] = "MPI_INT16_T"
+                        cname[h]     = "int16_t"
                     case 0b001:
                         constants[h] = "MPI_UINT16_T"
+                        cname[h]     = "uint16_t"
                     case 0b010:
                         constants[h] = "<float 16b>"
                     case 0b011:
@@ -226,8 +263,10 @@ def parse_datatype(h):
                 match kind:
                     case 0b000:
                         constants[h] = "MPI_INT32_T"
+                        cname[h]     = "int32_t"
                     case 0b001:
                         constants[h] = "MPI_UINT32_T"
+                        cname[h]     = "uint32_t"
                     case 0b010:
                         constants[h] = "<C float 32b>"
                     case 0b011:
@@ -241,8 +280,10 @@ def parse_datatype(h):
                 match kind:
                     case 0b000:
                         constants[h] = "MPI_INT64_T"
+                        cname[h]     = "int64_t"
                     case 0b001:
                         constants[h] = "MPI_UINT64_T"
+                        cname[h]     = "uint64_t"
                     case 0b010:
                         constants[h] = "<C float64>"
                     case 0b011:
@@ -279,24 +320,30 @@ def parse_datatype(h):
             case 0b11_000: # 1 byte Fortran
                 match kind:
                     case 0b000:
-                        constants[h] = "MPIX_LOGICAL1"
+                        constants[h] = "MPI_LOGICAL1"
+                        cname[h]     = "LOGICAL*1"
                     case 0b001:
                         constants[h] = "MPI_INTEGER1"
+                        cname[h]     = "INTEGER*1"
                     case 0b010:
-                        constants[h] = "MPIX_REAL1"
+                        constants[h] = "<Fortran real 8b>"
                     case 0b011:
                         constants[h] = "MPI_CHARACTER"
+                        cname[h]     = "CHARACTER"
                     case _:
                         constants[h] = "reserved datatype"
 
             case 0b11_001: # 2 byte Fortran
                 match kind:
                     case 0b000:
-                        constants[h] = "MPIX_LOGICAL2"
+                        constants[h] = "MPI_LOGICAL2"
+                        cname[h]     = "LOGICAL*2"
                     case 0b001:
                         constants[h] = "MPI_INTEGER2"
+                        cname[h]     = "INTEGER*2"
                     case 0b010:
-                        constants[h] = "MPIX_REAL2"
+                        constants[h] = "MPI_REAL2"
+                        cname[h]     = "REAL*2"
                     case 0b011:
                         constants[h] = "<Fortran complex 2x8b>"
                     case _:
@@ -305,39 +352,51 @@ def parse_datatype(h):
             case 0b11_010: # 4 byte Fortran
                 match kind:
                     case 0b000:
-                        constants[h] = "MPIX_LOGICAL4"
+                        constants[h] = "MPI_LOGICAL4"
+                        cname[h]     = "LOGICAL*4"
                     case 0b001:
                         constants[h] = "MPI_INTEGER4"
+                        cname[h]     = "INTEGER*4"
                     case 0b010:
                         constants[h] = "MPI_REAL4"
+                        cname[h]     = "REAL*4"
                     case 0b011:
-                        constants[h] = "MPIX_COMPLEX4"
+                        constants[h] = "MPI_COMPLEX4"
+                        cname[h]     = "COMPLEX*4"
                     case _:
                         constants[h] = "reserved datatype"
 
             case 0b11_011: # 8 byte Fortran
                 match kind:
                     case 0b0000:
-                        constants[h] = "MPIX_LOGICAL8"
+                        constants[h] = "MPI_LOGICAL8"
+                        cname[h]     = "LOGICAL*8"
                     case 0b0001:
                         constants[h] = "MPI_INTEGER8"
+                        cname[h]     = "INTEGER*8"
                     case 0b0010:
                         constants[h] = "MPI_REAL8"
+                        cname[h]     = "REAL*8"
                     case 0b0011:
                         constants[h] = "MPI_COMPLEX8"
+                        cname[h]     = "COMPLEX*8"
                     case _:
                         constants[h] = "reserved datatype"
 
             case 0b11_100: # 16 byte Fortran
                 match kind:
                     case 0b0000:
-                        constants[h] = "MPIX_LOGICAL16"
+                        constants[h] = "MPI_LOGICAL16"
+                        cname[h]     = "LOGICAL*16"
                     case 0b0001:
                         constants[h] = "MPI_INTEGER16"
+                        cname[h]     = "INTEGER*16"
                     case 0b0010:
                         constants[h] = "MPI_REAL16"
+                        cname[h]     = "REAL*16"
                     case 0b0011:
                         constants[h] = "MPI_COMPLEX16"
+                        cname[h]     = "COMPLEX*16"
                     case _:
                         constants[h] = "reserved datatype"
 
@@ -345,6 +404,7 @@ def parse_datatype(h):
                 match kind:
                     case 0b0011:
                         constants[h] = "MPI_COMPLEX32"
+                        cname[h]     = "COMPLEX*32"
                     case _:
                         constants[h] = "reserved datatype"
 
@@ -542,6 +602,14 @@ def main():
             if (constants[h][0:3] == "MPI"):
                 #print(format('#define',"7s"),constants[h],'(',handle_types[h],') 0x',format(h,"4x"))
                 line = 'type(' +handle_types[h] + '), parameter :: ' + format(constants[h],"30s") + ' = ' + handle_types[h] + "(" + format(h,'08d') + ")"
+                print(line)
+
+    # make mpi.mod constants
+    if ( len(sys.argv) > 1 and sys.argv[1] == "T" ):
+        for h in range(0,1025):
+            if (constants[h][0:3] == "MPI"):
+                #print(format('#define',"7s"),constants[h],'(',handle_types[h],') 0x',format(h,"4x"))
+                line = '\\mpiconst{' +constants[h].replace("_","\\_") + '} & ' + format(h,'d') + ' \\\\ '
                 print(line)
 
 if __name__ == '__main__':
