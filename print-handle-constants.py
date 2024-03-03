@@ -329,7 +329,7 @@ def parse_datatype(h):
                         constants[h] = "<Fortran real 8b>"
                     case 0b011:
                         constants[h] = "MPI_CHARACTER"
-                        cname[h]     = "CHARACTER"
+                        cname[h]     = "CHARACTER(1)"
                     case _:
                         constants[h] = "reserved datatype"
 
@@ -471,7 +471,7 @@ def parse_other(h):
         info_type = (h & 0b111)
         if   (info_type == 0b000):
             constants[h] = "MPI_INFO_NULL"
-        if   (info_type == 0b001):
+        elif (info_type == 0b001):
             constants[h] = "MPI_INFO_ENV"
         else:
             constants[h] = "reserved info"
@@ -609,7 +609,7 @@ def main():
         for h in range(0,1025):
             if (constants[h][0:3] == "MPI"):
                 #print(format('#define',"7s"),constants[h],'(',handle_types[h],') 0x',format(h,"4x"))
-                line = '\\mpiconst{' +constants[h].replace("_","\\_") + '} & ' + format(h,'d') + ' \\\\ '
+                line = '\\mpiconst{' + format(constants[h].replace("_","\\_")+'}','38s') + ' & ' + '\\ctype{' + format(cname[h].replace("_","\\_")+'}','26s') + ' & ' + format(h,'d') + ' \\\\ '
                 print(line)
 
 if __name__ == '__main__':
