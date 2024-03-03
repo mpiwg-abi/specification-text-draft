@@ -123,6 +123,9 @@ def parse_datatype(h):
                     case 0b101:
                         constants[h] = "MPI_DOUBLE_COMPLEX"
                         cname[h]     = "DOUBLE COMPLEX"
+                    case 0b110:
+                        constants[h] = "MPI_CHARACTER"
+                        cname[h]     = "CHARACTER(1)"
                     case _:
                         constants[h] = "reserved datatype"
 
@@ -216,7 +219,6 @@ def parse_datatype(h):
             # 0b000: "MPI_INTEGER(n)"
             # 0b001: "MPI_LOGICAL(n) (not standard)"
             # 0b010: "MPI_REAL(n)"
-            # 0b011: (size=1) ? "MPI_CHARACTER" : "MPI_COMPLEX(n)"
 
             case 0b01_000: # 1 byte C/C++
                 match kind:
@@ -327,9 +329,6 @@ def parse_datatype(h):
                         cname[h]     = "INTEGER*1"
                     case 0b010:
                         constants[h] = "<Fortran real 8b>"
-                    case 0b011:
-                        constants[h] = "MPI_CHARACTER"
-                        cname[h]     = "CHARACTER(1)"
                     case _:
                         constants[h] = "reserved datatype"
 
