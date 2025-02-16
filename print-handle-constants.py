@@ -206,7 +206,7 @@ def parse_datatype(h):
                         constants[h] = "reserved datatype"
 
             # scheme
-            # C/C++
+            # C/C++ (0b01_***)
             # 0b000: "MPI_INT(n)_T"
             # 0b001: "MPI_UINT(n)_T"
             # 0b010: "<float (n)b>"
@@ -215,7 +215,7 @@ def parse_datatype(h):
             # 0b101: (size=1) ? "MPI_UNSIGNED_CHAR" : "reserved datatype"
             # 0b110: (size=2) ? "<C++ bfloat16_t>" : "reserved datatype"
             # 0b111: (size=1) ? "MPI_BYTE" : ""<C++ complex 2x(n/2)b>""
-            # Fortran
+            # Fortran (0b11_***)
             # 0b000: "MPI_INTEGER(n)"
             # 0b001: "MPI_LOGICAL(n) (not standard)"
             # 0b010: "MPI_REAL(n)"
