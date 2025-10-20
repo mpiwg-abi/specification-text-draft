@@ -483,9 +483,9 @@ def parse_other(h):
         elif (errhandler_type == 0b001):
             constants[h] = "MPI_ERRORS_ARE_FATAL"
         elif (errhandler_type == 0b010):
-            constants[h] = "MPI_ERRORS_RETURN"
-        elif (errhandler_type == 0b011):
             constants[h] = "MPI_ERRORS_ABORT"
+        elif (errhandler_type == 0b011):
+            constants[h] = "MPI_ERRORS_RETURN"
         else:
             constants[h] = "reserved errhandler"
     # 0b01... (lots of space for errhandlers, if necessary)
